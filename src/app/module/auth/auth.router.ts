@@ -37,11 +37,11 @@ router.post(
 	validateRequest(UserValidation.UserRegistrationZodSchema),
 	AuthController.registerPatient,
 );
-// router.post(
-// 	"/verify-email",
-// 	validateRequest(UserValidation.PatientEmailVerifyZodSchema),
-// 	AuthController.verifyPatientEmail,
-// );
+router.post(
+	"/verify-email",
+	validateRequest(UserValidation.UserEmailVerifyZodSchema),
+	AuthController.verifyUserEmail,
+);
 // router.post(
 // 	"/login",
 // 	validateRequest(UserValidation.LoginZodSchema),
