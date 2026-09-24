@@ -1,0 +1,38 @@
+model Property {
+  id              String          @id @default(uuid())
+  ownerId         String
+  title           String
+  description     String
+  propertyType    PropertyType
+  address         String
+  city            String
+  area            String?
+  rent            Decimal         @db.Decimal(12, 2)
+  securityDeposit Decimal?        @db.Decimal(12, 2)
+  bedrooms        Int             @default(1)
+  bathrooms       Int             @default(1)
+  availableRooms  Int             @default(1)
+  furnished       FurnishedStatus
+  availableFrom   DateTime
+  amenities       String[]
+  images          String[]
+  contactName     String?
+  contactPhone    String?
+  contactEmail    String?
+  status          PropertyStatus   @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+//   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+//   rooms Room[]
+
+//   rentalRequests RentalRequest[]
+//   bookings       Booking[]
+//   reviews        Review[]
+//   reports        Report[]
+
+  @@index([ownerId])            
+  @@map("properties")
+}

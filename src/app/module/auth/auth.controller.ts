@@ -7,35 +7,10 @@ import type { IRequestUser } from "./auth.interface";
 import { AuthService } from "./auth.service";
 
 const registerPatient = catchAsync(async (req: Request, res: Response) => {
-	// const payload = PatientValidation.PatientRegistrationZodSchema.safeParse(req.body);
-
-	// if(!payload.success){
-	// 	console.log(payload.error);
-	// 	console.log(payload.error.issues);
-
-	// 	throw new Error(payload.error.issues[0].message)
-	// }
-
-	// console.log(payload);
 
 	const payload = req.body;
 
 	await AuthService.registerUser(payload);
-
-	// const { accessToken, refreshToken, user, patient } = result;
-
-	// res.cookie("accessToken", accessToken, {
-	// 	httpOnly: true,
-	// 	secure: false,
-	// 	sameSite: "none",
-	// 	maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-	// });
-	// res.cookie("refreshToken", refreshToken, {
-	// 	httpOnly: true,
-	// 	secure: false,
-	// 	sameSite: "none",
-	// 	maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-	// });
 
 	sendResponse(res, {
 		statusCode: httpStatus.CREATED,
@@ -107,50 +82,50 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
-	// const user = req.user as unknown as IRequestUser;
+	const user = req.user as unknown as IRequestUser;
 
-	// if (!user) {
-	// 	throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request");
-	// }
+	if (!user) {
+		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request");
+	}
 
-	// const result = await AuthService.getMe(user);
-	// sendResponse(res, {
-	// 	statusCode: httpStatus.OK,
-	// 	success: true,
-	// 	message: "User profile fetched successfully",
-	// 	data: result,
-	// });
+	const result = await AuthService.getMe(user);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "User profile fetched successfully",
+		data: result,
+	});
 });
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
-	// if (!req.cookies.refreshToken) {
-	// 	throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
-	// }
-	// const result = await AuthService.refreshToken(req.cookies.refreshToken);
-	// const { accessToken, refreshToken: newRefreshToken } = result;
+	if (!req.cookies.refreshToken) {
+		throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
+	}
+	const result = await AuthService.refreshToken(req.cookies.refreshToken);
+	const { accessToken, refreshToken: newRefreshToken } = result;
 
-	// res.cookie("accessToken", accessToken, {
-	// 	httpOnly: true,
-	// 	secure: false,
-	// 	sameSite: "none",
-	// 	maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-	// });
-	// res.cookie("refreshToken", newRefreshToken, {
-	// 	httpOnly: true,
-	// 	secure: false,
-	// 	sameSite: "none",
-	// 	maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-	// });
+	res.cookie("accessToken", accessToken, {
+		httpOnly: true,
+		secure: false,
+		sameSite: "none",
+		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
+	});
+	res.cookie("refreshToken", newRefreshToken, {
+		httpOnly: true,
+		secure: false,
+		sameSite: "none",
+		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+	});
 
-	// sendResponse(res, {
-	// 	statusCode: httpStatus.OK,
-	// 	success: true,
-	// 	message: "New tokens generated successfully",
-	// 	data: {
-	// 		accessToken,
-	// 		refreshToken: newRefreshToken,
-	// 	},
-	// });
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "New tokens generated successfully",
+		data: {
+			accessToken,
+			refreshToken: newRefreshToken,
+		},
+	});
 });
 const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	// const payload = req.body;

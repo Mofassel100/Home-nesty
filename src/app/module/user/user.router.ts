@@ -1,15 +1,16 @@
 import { Router } from "express";
-// import { Role } from "../../../generated/prisma/enums";
+import { Role } from "../../../generated/prisma/enums";
 import { upload } from "../../lib/multer";
 import { auth } from "../../middleware/checkAuth";
-// import { UserController } from "./user.controller";
+import { UserController } from "./user.controller";
 
 const router = Router();
 
 router.patch(
-	"/profile-image",
-	)
-	
+	"/me",
+	auth(Role.SUPER_ADMIN, Role.ADMIN, Role.PROVIDER,Role.CUSTOMER),
+	upload.single("house-backend"),
+	UserController.uploadProfileImage,
+);
 
-
- export const  UserRoutes = router;
+export const UserRoutes = router;
