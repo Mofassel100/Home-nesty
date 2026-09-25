@@ -3,7 +3,7 @@ model Property {
   ownerId         String
   title           String
   description     String
-  propertyType    PropertyType
+  propertyType    PropertyType @default(HOUSE)
   address         String
   city            String
   area            String?
@@ -13,9 +13,8 @@ model Property {
   bathrooms       Int             @default(1)
   availableRooms  Int             @default(1)
   furnished       FurnishedStatus
-  availableFrom   DateTime
-  amenities       String[]
-  images          String[]
+   imageUrl           String       @default("")
+  imagePublicId      String       @default("")
   contactName     String?
   contactPhone    String?
   contactEmail    String?

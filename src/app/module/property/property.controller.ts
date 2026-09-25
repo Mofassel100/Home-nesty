@@ -7,11 +7,15 @@ import { PropertyService } from "./property.service";
 
 
 const propertyCreate = catchAsync(async (req: Request, res: Response) => {
+	if (!req.file) {
+		throw new AppError(httpStatus.BAD_REQUEST, "No File Provided.");
+	}
 
-	const payload = req.body;
-    console.log(payload,"property Contorller")
-
-	const result  = await  PropertyService.propertyCreate(payload);
+	// const payload = JSON.parse(req.body.data);
+	const payload = req.body.data;
+	console.log(req.file,"req.file", req,)
+    const userId = req.user?.userId
+	const result  = await  PropertyService.propertyCreate(payload,req.file?.buffer,userId as string);
     
 
 	sendResponse(res, {
@@ -21,169 +25,22 @@ const propertyCreate = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 });
-// const verifyUserEmail = catchAsync(async (req: Request, res: Response) => {
-// 	const payload = req.body;
-//  console.log(payload)
-// 	const result = await AuthService.verifyUserEmail(payload);
-//  console.log(result)
-// 	const { accessToken, refreshToken, user } = result;
-   
+const getAllOwnProperty = catchAsync(async (req: Request, res: Response) => {
+const userId = req.user?.userId
 
-// 	res.cookie("accessToken", accessToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-// 	});
-// 	res.cookie("refreshToken", refreshToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-// 	});
-
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.CREATED,
-// 		success: true,
-// 		message: "Email Verified Successfully",
-// 		data: {
-// 			accessToken,
-// 			refreshToken,
-// 			user,
-// 		},
-// 	});
-// });
-
-// const loginUser = catchAsync(async (req: Request, res: Response) => {
-// 	const payload = req.body;
-// 	const result = await AuthService.loginUser(payload);
-// 	const { accessToken, refreshToken } = result;
-
-// 	res.cookie("accessToken", accessToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-// 	});
-// 	res.cookie("refreshToken", refreshToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-// 	});
-
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		success: true,
-// 		message: "User logged in successfully",
-// 		data: {
-// 			accessToken,
-// 			refreshToken,
-// 		},
-// 	});
-// });
-
-// const getMe = catchAsync(async (req: Request, res: Response) => {
-// 	const user = req.user as unknown as IRequestUser;
-
-// 	if (!user) {
-// 		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request");
-// 	}
-
-// 	const result = await AuthService.getMe(user);
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		success: true,
-// 		message: "User profile fetched successfully",
-// 		data: result,
-// 	});
-// });
-
-// const refreshToken = catchAsync(async (req: Request, res: Response) => {
-// 	if (!req.cookies.refreshToken) {
-// 		throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
-// 	}
-// 	const result = await AuthService.refreshToken(req.cookies.refreshToken);
-// 	const { accessToken, refreshToken: newRefreshToken } = result;
-
-// 	res.cookie("accessToken", accessToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-// 	});
-// 	res.cookie("refreshToken", newRefreshToken, {
-// 		httpOnly: true,
-// 		secure: false,
-// 		sameSite: "none",
-// 		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-// 	});
-
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		success: true,
-// 		message: "New tokens generated successfully",
-// 		data: {
-// 			accessToken,
-// 			refreshToken: newRefreshToken,
-// 		},
-// 	});
-// });
-// const googleLogin = catchAsync(async (req: Request, res: Response) => {
-// 	// const payload = req.body;
-
-// 	// const result = await AuthService.googleLogin(payload);
-
-// 	// const { accessToken, refreshToken } = result;
-
-// 	// res.cookie("accessToken", accessToken, {
-// 	// 	httpOnly: true,
-// 	// 	secure: false,
-// 	// 	sameSite: "none",
-// 	// 	maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-// 	// });
-// 	// res.cookie("refreshToken", refreshToken, {
-// 	// 	httpOnly: true,
-// 	// 	secure: false,
-// 	// 	sameSite: "none",
-// 	// 	maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-// 	// });
-
-// 	// sendResponse(res, {
-// 	// 	statusCode: httpStatus.OK,
-// 	// 	success: true,
-// 	// 	message: "New tokens generated successfully",
-// 	// 	data: {
-// 	// 		accessToken,
-// 	// 		refreshToken,
-// 	// 	},
-// 	// });
-// });
-// const forgotPassword = catchAsync(async (req: Request, res: Response) => {
-// 	const payload = req.body;
-
-// 	await AuthService.forgotPassword(payload);
-
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		success: true,
-// 		message: `OTP Sent To Email : ${payload.email}`,
-// 		data: null,
-// 	});
-// });
-// const resetPassword = catchAsync(async (req: Request, res: Response) => {
-// 	const payload = req.body;
-
-// 	await AuthService.resetPassword(payload);
-
-// 	sendResponse(res, {
-// 		statusCode: httpStatus.OK,
-// 		success: true,
-// 		message: "Password Changed Successfully",
-// 		data: null,
-// 	});
-// });
+	const result = await PropertyService.getAllOwnProperty(
+		userId as string
+	);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Property Retrieved Successfully",
+		data:result,
+	
+	});
+});
 
 export const PropertyController = {
-propertyCreate
+propertyCreate,
+getAllOwnProperty
 };

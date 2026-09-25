@@ -67,18 +67,207 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
-export const DoctorVerificationStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
-} as const
-
-export type DoctorVerificationStatus = (typeof DoctorVerificationStatus)[keyof typeof DoctorVerificationStatus]
-
-
 export const ScheduleStatus = {
   DRAFT: 'DRAFT',
   PUBLISHED: 'PUBLISHED'
 } as const
 
 export type ScheduleStatus = (typeof ScheduleStatus)[keyof typeof ScheduleStatus]
+
+
+export const PropertyType = {
+  APARTMENT: 'APARTMENT',
+  HOUSE: 'HOUSE',
+  SUBLET: 'SUBLET',
+  ROOM: 'ROOM',
+  BACHELOR_ROOM: 'BACHELOR_ROOM',
+  FAMILY_APARTMENT: 'FAMILY_APARTMENT',
+  SHARED_APARTMENT: 'SHARED_APARTMENT',
+  HOSTEL: 'HOSTEL'
+} as const
+
+export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
+
+
+export const PropertyStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  PUBLISHED: 'PUBLISHED',
+  RENTED: 'RENTED',
+  UNAVAILABLE: 'UNAVAILABLE',
+  REJECTED: 'REJECTED'
+} as const
+
+export type PropertyStatus = (typeof PropertyStatus)[keyof typeof PropertyStatus]
+
+
+export const FurnishedStatus = {
+  FURNISHED: 'FURNISHED',
+  UNFURNISHED: 'UNFURNISHED',
+  SEMI_FURNISHED: 'SEMI_FURNISHED'
+} as const
+
+export type FurnishedStatus = (typeof FurnishedStatus)[keyof typeof FurnishedStatus]
+
+
+export const RoomType = {
+  SINGLE: 'SINGLE',
+  DOUBLE: 'DOUBLE',
+  SHARED: 'SHARED',
+  MASTER: 'MASTER',
+  PRIVATE: 'PRIVATE',
+  BACHELOR: 'BACHELOR',
+  FAMILY: 'FAMILY'
+} as const
+
+export type RoomType = (typeof RoomType)[keyof typeof RoomType]
+
+
+export const Lifestyle = {
+  QUIET: 'QUIET',
+  SOCIAL: 'SOCIAL',
+  BALANCED: 'BALANCED'
+} as const
+
+export type Lifestyle = (typeof Lifestyle)[keyof typeof Lifestyle]
+
+
+export const FoodPreference = {
+  VEG: 'VEG',
+  NON_VEG: 'NON_VEG',
+  BOTH: 'BOTH',
+  ANY: 'ANY'
+} as const
+
+export type FoodPreference = (typeof FoodPreference)[keyof typeof FoodPreference]
+
+
+export const RoommateListingStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  PAUSED: 'PAUSED',
+  MATCHED: 'MATCHED',
+  CLOSED: 'CLOSED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type RoommateListingStatus = (typeof RoommateListingStatus)[keyof typeof RoommateListingStatus]
+
+
+export const RoommateRequestStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type RoommateRequestStatus = (typeof RoommateRequestStatus)[keyof typeof RoommateRequestStatus]
+
+
+export const BookingStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const PaymentType = {
+  MONTHLY_RENT: 'MONTHLY_RENT',
+  SECURITY_DEPOSIT: 'SECURITY_DEPOSIT',
+  BOOKING_FEE: 'BOOKING_FEE',
+  SERVICE_FEE: 'SERVICE_FEE'
+} as const
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType]
+
+
+export const ReportReason = {
+  FAKE_PROPERTY: 'FAKE_PROPERTY',
+  FAKE_ROOMMATE: 'FAKE_ROOMMATE',
+  WRONG_INFORMATION: 'WRONG_INFORMATION',
+  SCAM: 'SCAM',
+  INAPPROPRIATE_CONTENT: 'INAPPROPRIATE_CONTENT',
+  HARASSMENT: 'HARASSMENT',
+  DUPLICATE_LISTING: 'DUPLICATE_LISTING',
+  OTHER: 'OTHER'
+} as const
+
+export type ReportReason = (typeof ReportReason)[keyof typeof ReportReason]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  RESOLVED: 'RESOLVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const NotificationType = {
+  RENTAL_REQUEST: 'RENTAL_REQUEST',
+  RENTAL_APPROVED: 'RENTAL_APPROVED',
+  RENTAL_REJECTED: 'RENTAL_REJECTED',
+  RENTAL_CANCELLED: 'RENTAL_CANCELLED',
+  ROOMMATE_REQUEST: 'ROOMMATE_REQUEST',
+  ROOMMATE_ACCEPTED: 'ROOMMATE_ACCEPTED',
+  ROOMMATE_REJECTED: 'ROOMMATE_REJECTED',
+  ROOMMATE_MATCH: 'ROOMMATE_MATCH',
+  PROPERTY_APPROVED: 'PROPERTY_APPROVED',
+  PROPERTY_REJECTED: 'PROPERTY_REJECTED',
+  PROPERTY_STATUS_CHANGED: 'PROPERTY_STATUS_CHANGED',
+  BOOKING_CONFIRMED: 'BOOKING_CONFIRMED',
+  PAYMENT_CONFIRMED: 'PAYMENT_CONFIRMED',
+  NEW_MESSAGE: 'NEW_MESSAGE',
+  GENERAL: 'GENERAL'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const OtpType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  FORGOT_PASSWORD: 'FORGOT_PASSWORD'
+} as const
+
+export type OtpType = (typeof OtpType)[keyof typeof OtpType]
+
+
+export const MessageType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE'
+} as const
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const MessageStatus = {
+  SENT: 'SENT',
+  DELIVERED: 'DELIVERED',
+  READ: 'READ'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
+
+
+export const AuditAction = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+  APPROVE: 'APPROVE',
+  REJECT: 'REJECT',
+  BLOCK: 'BLOCK',
+  UNBLOCK: 'UNBLOCK',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
+  PAYMENT: 'PAYMENT',
+  OTHER: 'OTHER'
+} as const
+
+export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]

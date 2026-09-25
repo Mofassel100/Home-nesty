@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Property: 'Property',
   User: 'User'
 } as const
 
@@ -68,6 +69,34 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const PropertyScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  title: 'title',
+  description: 'description',
+  propertyType: 'propertyType',
+  address: 'address',
+  city: 'city',
+  area: 'area',
+  rent: 'rent',
+  securityDeposit: 'securityDeposit',
+  bedrooms: 'bedrooms',
+  bathrooms: 'bathrooms',
+  availableRooms: 'availableRooms',
+  furnished: 'furnished',
+  imageUrl: 'imageUrl',
+  imagePublicId: 'imagePublicId',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
