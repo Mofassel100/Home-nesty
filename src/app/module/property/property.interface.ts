@@ -194,3 +194,24 @@ export interface IProperty {
   status: PropertyStatus;
 
 }
+export interface IPropertyUpdated {
+  title?: string;
+  description?: string;
+  propertyType?: PropertyType;
+  address?: string;
+  city?: string;
+  area?: string | null;
+  rent?: number;
+  securityDeposit?: number | null;
+  bedrooms?: number;
+  bathrooms?: number;
+  availableRooms?: number;
+  furnished?: FurnishedStatus;
+    imageUrl ?:          string       
+  imagePublicId?:      string       
+  contactName?: string | null;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  status?: PropertyStatus;
+
+}

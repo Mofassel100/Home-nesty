@@ -92,6 +92,8 @@ export const PropertyScalarFieldEnum = {
   contactPhone: 'contactPhone',
   contactEmail: 'contactEmail',
   status: 'status',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

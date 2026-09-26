@@ -21,20 +21,11 @@ import { jwtUtils } from "../../utils/jwt";
 import { IProperty } from "./property.interface";
 import { UploadApiResponse } from "cloudinary";
 import { cloudinary } from "../../lib/cloudinary";
+import { de } from "zod/v4/locales";
 
 
 const propertyCreate = async (payload:IProperty,buffer: Buffer,userId:string) => {
 	
-
-	// const currentUser = await prisma.property.findUnique({
-	// 		where: {
-	// 			id: userId,
-	// 		},
-	// 		select: {
-	// 			imagePublicId: true,
-	// 			imageUrl: true,
-	// 		},
-	// 	});
 	
 		const cloudinaryResult = await new Promise<UploadApiResponse>(
 			(resolve, reject) => {
@@ -104,14 +95,123 @@ const getAllOwnProperty = async (userId: string) => {
 	})
 	return result
 }
+const getSingleOwnProperty = async ( propertyId: string) => {
+
+	const result = await prisma.property.findMany({
+		where:{id:propertyId}
+	})
+	return result
+}
+
+// property update from db
+const propertyUpdated = async (payload:IProperty,buffer: Buffer,userId:string,propertyID:string) => {
+		const currentProperty = await prisma.property.findUnique({
+		where: {
+			id: userId,
+		},
+		select: {
+			imagePublicId: true,
+			imageUrl: true,
+		},
+	});
+	
+		const cloudinaryResult = await new Promise<UploadApiResponse>(
+			(resolve, reject) => {
+				cloudinary.uploader
+					.upload_stream(
+						{
+							resource_type: "auto",
+						},
+	
+						async (error, result) => {
+							if (error) {
+								return reject(error);
+							}
+	
+							if (!result) {
+								return reject(new Error("No result returned from Cloudinary"));
+							}
+	
+							resolve(result);
+						},
+					)
+					.end(buffer);
+			},
+		);
+		const findUser = await prisma.property.findUnique({
+			where:{id:propertyID}
+		})
+		if(!findUser){
+			throw new Error("Property not found")
+		}
+
+		const updatedProperty = await prisma.property.update({
+			where:{
+				id:findUser.id,
+			},
+data: {
+    title: payload.title,
+    description: payload.description,
+
+    propertyType: payload.propertyType,
+
+    address: payload.address,
+    city: payload.city,
+    area: payload.area ?? null,
+
+    rent: payload.rent,
+    securityDeposit: payload.securityDeposit ?? null,
+
+    bedrooms: payload.bedrooms,
+    bathrooms: payload.bathrooms,
+    availableRooms: payload.availableRooms,
+    furnished: payload.furnished,
+    imageUrl: cloudinaryResult.secure_url,
+	imagePublicId: cloudinaryResult.public_id,
+    contactName: payload.contactName ?? null,
+    contactPhone: payload.contactPhone ?? null,
+    contactEmail: payload.contactEmail ?? null,
+    status: payload.status,
+  },
+});
+	if (currentProperty?.imagePublicId && currentProperty.imageUrl) {
+		await cloudinary.uploader.destroy(currentProperty.imagePublicId);
+	}
+	
+		return updatedProperty;
+};
 
 
+const deleteProperty = async (propertyId: string, userId: string) => {
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+    });
 
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User Profile Not Found");
+    }
 
+    const getProperty = await prisma.property.findUnique({
+        where: { id: propertyId},
+    });
+
+    if (!getProperty || getProperty.isDeleted) {
+        throw new AppError(httpStatus.NOT_FOUND, "Property Not Found");
+    }
+    const deletedSchedule = await prisma.property.update({
+        where: { id: getProperty.id },
+        data: { isDeleted: true, deletedAt: new Date() },
+    });
+
+    return deletedSchedule;
+}
 
 
 
 export const PropertyService = {
 propertyCreate,
-getAllOwnProperty
+getAllOwnProperty,
+getSingleOwnProperty,
+deleteProperty,
+propertyUpdated
 };

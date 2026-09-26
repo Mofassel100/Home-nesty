@@ -4,7 +4,7 @@ import { auth } from "../../middleware/checkAuth";
 import { Role } from "../../../generated/prisma/enums";
 import { upload } from "../../lib/multer";
 import { validateRequest } from "../../middleware/validateRequest";
-import { CreatePropertyValidationZodSchema } from "./property.validation";
+import { CreatePropertyValidationZodSchema, updatedPropertyValidationZodSchema } from "./property.validation";
 
 const router = Router();
 
@@ -16,32 +16,31 @@ router.post(
      validateRequest(CreatePropertyValidationZodSchema),
    PropertyController.propertyCreate
 );
-// router.post(
-//     "/verify-email",
-//     validateRequest(UserValidation.UserEmailVerifyZodSchema),
-//     AuthController.verifyUserEmail,
-// );
-// router.post(
-//     "/login",
-//     validateRequest(UserValidation.LoginZodSchema),
-//     AuthController.loginUser,
-// );
+
 router.get(
     "/",
     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
     // validateRequest
     PropertyController.getAllOwnProperty,
 );
-// router.post("/refresh-token", AuthController.refreshToken);
-// // router.post("/google", AuthController.googleLogin);
-// router.post(
-//     "/forgot-password",
-//     validateRequest(UserValidation.ForgotPasswordZodSchema),
-//     AuthController.forgotPassword,
-// );
-// router.post(
-//     "/reset-password",
-//     validateRequest(UserValidation.ResetPasswordZodSchema),
-//     AuthController.resetPassword,
-// );
+router.get(
+    "/:id",
+    auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
+    // validateRequest
+    PropertyController.getSingleProperty,
+);
+router.patch(
+    "/:id",
+     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
+     upload.single("propertyUpdate"),
+     validateRequest(updatedPropertyValidationZodSchema),
+   PropertyController.propertyUpdated
+);
+router.delete(
+    "/:id",
+    auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
+    // validateRequest
+    PropertyController.deletedProperty,
+);
+
 export const PropertyRoutes = router;
