@@ -3,7 +3,7 @@ model Booking {
 
   propertyId  String
   customerId  String
-
+ bookingNumber String        @unique
   startDate   DateTime
   endDate     DateTime?
 

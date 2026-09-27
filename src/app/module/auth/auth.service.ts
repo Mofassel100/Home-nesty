@@ -22,9 +22,7 @@ import type {
 	IForgotPasswordPayload,
 	IGoogleLoginPayload,
 	ILoginUserPayload,
-	
 	IRegisterUserPayload,
-	
 	IRequestUser,
 	IResetPasswordPayload,
 	IVerifyEmailPayload,
@@ -40,7 +38,10 @@ const registerUser = async (payload: IRegisterUserPayload) => {
 	});
 
 	if (isUserExists) {
-		throw new AppError(httpStatus.CONFLICT, "User with this email already exists");
+		throw new AppError(
+			httpStatus.CONFLICT,
+			"User with this email already exists",
+		);
 	}
 
 	const hashedPassword = await bcrypt.hash(password, 8);
@@ -123,7 +124,7 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 	const otpKey = `customer-registration-otp:${email}`;
 
 	const redisOtp = await redisClient.get(otpKey);
-	console.log(redisOtp)
+	console.log(redisOtp);
 
 	if (!redisOtp) {
 		throw new AppError(httpStatus.BAD_REQUEST, "Invalid OTP");
@@ -138,8 +139,7 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 	const UserRegistrationKey = `user-registration-data:${email}`;
 
 	const redisUserData = await redisClient.get(UserRegistrationKey);
-	console.log(redisUserData)
-	
+	console.log(redisUserData);
 
 	if (!redisUserData) {
 		throw new AppError(httpStatus.NOT_FOUND, "User Doesnt Exist");
@@ -155,7 +155,6 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 			role: Role.CUSTOMER,
 			status: UserStatus.ACTIVE,
 			emailVerified: true,
-			
 		},
 		omit: { password: true },
 	});
@@ -182,7 +181,7 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 		html,
 	});
 
-	const {...user } = createdUser;
+	const { ...user } = createdUser;
 	const jwtPayload = {
 		userId: user.id,
 		name: user.name,
@@ -210,7 +209,6 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 };
 
 const loginUser = async (payload: ILoginUserPayload) => {
-
 	// throw new Error("Test Error");
 
 	const { password } = payload;
@@ -221,8 +219,7 @@ const loginUser = async (payload: ILoginUserPayload) => {
 	});
 
 	if (!user) {
-		
-		throw new AppError(httpStatus.NOT_FOUND, "User Not Found")
+		throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
 	}
 
 	if (user.status === UserStatus.BLOCKED) {
@@ -313,7 +310,10 @@ const refreshToken = async (token: string) => {
 	});
 
 	if (!user || user.isDeleted || user.status !== UserStatus.ACTIVE) {
-		throw new AppError(httpStatus.UNAUTHORIZED, "User is inactive or not found");
+		throw new AppError(
+			httpStatus.UNAUTHORIZED,
+			"User is inactive or not found",
+		);
 	}
 
 	const jwtPayload = {
@@ -348,24 +348,20 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// 		idToken: payload.idToken,
 	// 		audience: config.google_client_id,
 	// 	});
-
 	// 	googleIdTokenPayload = ticket.getPayload();
 	// } catch (error) {
 	// 	console.log("Google ID Token Verification Failed", error);
 	// 	throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Or Expired Google Id Token");
 	// }
-
 	// if (!googleIdTokenPayload) {
 	// 	throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Or Expired Google Id Token");
 	// }
-
 	// if (!googleIdTokenPayload.email) {
 	// 	throw new AppError(httpStatus.BAD_REQUEST, "Google Email Not Found");
 	// }
 	// if (!googleIdTokenPayload.name) {
 	// 	throw new AppError(httpStatus.BAD_REQUEST, "Google Email User Name Not Found");
 	// }
-
 	// const ifPatientExistWithGoogleAuth = await prisma.user.findUnique({
 	// 	where: {
 	// 		email: googleIdTokenPayload.email,
@@ -373,9 +369,7 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// 		googleId: googleIdTokenPayload.sub,
 	// 	},
 	// });
-
 	// let user = ifPatientExistWithGoogleAuth;
-
 	// if (!ifPatientExistWithGoogleAuth) {
 	// 	const ifPatientExistWithCredentials = await prisma.user.findUnique({
 	// 		where: {
@@ -384,28 +378,23 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// 			authProvider: AuthProvider.CREDENTIAL,
 	// 		},
 	// 	});
-
 	// 	if (ifPatientExistWithCredentials) {
 	// 		if (!ifPatientExistWithCredentials.emailVerified) {
 	// 			throw new AppError(httpStatus.FORBIDDEN, "Email Not Verified");
 	// 		}
-
 	// 		if (ifPatientExistWithCredentials.status === UserStatus.BLOCKED) {
 	// 			throw new AppError(httpStatus.FORBIDDEN, "User Is Blocked");
 	// 		}
-
 	// 		if (
 	// 			ifPatientExistWithCredentials.isDeleted ||
 	// 			ifPatientExistWithCredentials.status === UserStatus.DELETED
 	// 		) {
 	// 			throw new AppError(httpStatus.FORBIDDEN, "User Is Deleted");
 	// 		}
-
 	// 		user = await prisma.user.update({
 	// 			where: {
 	// 				id: ifPatientExistWithCredentials.id,
 	// 			},
-
 	// 			data: {
 	// 				googleId: googleIdTokenPayload.sub,
 	// 			},
@@ -432,13 +421,10 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// 			process.cwd(),
 	// 			"src/app/templates/patient-welcome-email.ejs",
 	// 		);
-
 	// 		const templateData = {
 	// 			name: user.name,
 	// 		};
-
 	// 		const html = await ejs.renderFile(tempatePath, templateData);
-
 	// 		await transporter.sendMail({
 	// 			from: config.email_sender,
 	// 			to: user.email,
@@ -449,38 +435,31 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// 		});
 	// 	}
 	// }
-
 	// if (!user) {
 	// 	throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
 	// }
-
 	// if (user.status === UserStatus.BLOCKED) {
 	// 	throw new AppError(httpStatus.FORBIDDEN, "User Is Blocked");
 	// }
-
 	// if (user.isDeleted || user.status === UserStatus.DELETED) {
 	// 	throw new AppError(httpStatus.FORBIDDEN, "User Is Deleted");
 	// }
-
 	// const jwtPayload = {
 	// 	userId: user.id,
 	// 	name: user.name,
 	// 	email: user.email,
 	// 	role: user.role,
 	// };
-
 	// const accessToken = jwtUtils.createToken(
 	// 	jwtPayload,
 	// 	config.jwt_access_secret,
 	// 	config.jwt_access_expires_in as SignOptions,
 	// );
-
 	// const refreshToken = jwtUtils.createToken(
 	// 	jwtPayload,
 	// 	config.jwt_refresh_secret,
 	// 	config.jwt_refresh_expires_in as SignOptions,
 	// );
-
 	// return {
 	// 	accessToken,
 	// 	refreshToken,

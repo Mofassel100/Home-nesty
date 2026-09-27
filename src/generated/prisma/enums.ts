@@ -19,6 +19,17 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const PaymentStatus = {
+  UNPAID: 'UNPAID',
+  PAID: 'PAID',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
   BLOCKED: 'BLOCKED',
@@ -54,17 +65,6 @@ export const BookedStatus = {
 } as const
 
 export type BookedStatus = (typeof BookedStatus)[keyof typeof BookedStatus]
-
-
-export const PaymentStatus = {
-  UNPAID: 'UNPAID',
-  PAID: 'PAID',
-  FAILED: 'FAILED',
-  CANCELLED: 'CANCELLED',
-  REFUNDED: 'REFUNDED'
-} as const
-
-export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
 export const ScheduleStatus = {

@@ -7,7 +7,6 @@ import type { IRequestUser } from "./auth.interface";
 import { AuthService } from "./auth.service";
 
 const registerPatient = catchAsync(async (req: Request, res: Response) => {
-
 	const payload = req.body;
 
 	await AuthService.registerUser(payload);
@@ -21,11 +20,10 @@ const registerPatient = catchAsync(async (req: Request, res: Response) => {
 });
 const verifyUserEmail = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
- console.log(payload)
+	console.log(payload);
 	const result = await AuthService.verifyUserEmail(payload);
- console.log(result)
+	console.log(result);
 	const { accessToken, refreshToken, user } = result;
-   
 
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true,
@@ -85,7 +83,10 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 	const user = req.user as unknown as IRequestUser;
 
 	if (!user) {
-		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request");
+		throw new AppError(
+			httpStatus.UNAUTHORIZED,
+			"User information is missing in the request",
+		);
 	}
 
 	const result = await AuthService.getMe(user);
@@ -129,11 +130,8 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 });
 const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	// const payload = req.body;
-
 	// const result = await AuthService.googleLogin(payload);
-
 	// const { accessToken, refreshToken } = result;
-
 	// res.cookie("accessToken", accessToken, {
 	// 	httpOnly: true,
 	// 	secure: false,
@@ -146,7 +144,6 @@ const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	// 	sameSite: "none",
 	// 	maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
 	// });
-
 	// sendResponse(res, {
 	// 	statusCode: httpStatus.OK,
 	// 	success: true,

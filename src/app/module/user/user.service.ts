@@ -3,7 +3,6 @@ import { cloudinary } from "../../lib/cloudinary";
 import { prisma } from "../../lib/prisma";
 
 const uploadProfileImage = async (buffer: Buffer, userId: string) => {
-
 	const currentUser = await prisma.user.findUnique({
 		where: {
 			id: userId,

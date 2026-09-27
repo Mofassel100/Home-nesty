@@ -29,10 +29,7 @@ const PropertyDataSchema = z.object({
 		.trim()
 		.min(5, "Address must be at least 5 characters long"),
 
-	city: z
-		.string()
-		.trim()
-		.min(2, "City must be at least 2 characters long"),
+	city: z.string().trim().min(2, "City must be at least 2 characters long"),
 
 	area: z
 		.string()
@@ -40,9 +37,7 @@ const PropertyDataSchema = z.object({
 		.min(2, "Area must be at least 2 characters long")
 		.optional(),
 
-	rent: z
-		.number()
-		.min(0, "Rent cannot be negative"),
+	rent: z.number().min(0, "Rent cannot be negative"),
 
 	securityDeposit: z
 		.number()
@@ -64,11 +59,7 @@ const PropertyDataSchema = z.object({
 		.int("Available rooms must be an integer")
 		.min(0, "Available rooms cannot be negative"),
 
-	furnished: z.enum([
-		"FURNISHED",
-		"SEMI_FURNISHED",
-		"UNFURNISHED",
-	]),
+	furnished: z.enum(["FURNISHED", "SEMI_FURNISHED", "UNFURNISHED"]),
 
 	contactName: z
 		.string()
@@ -76,11 +67,7 @@ const PropertyDataSchema = z.object({
 		.min(2, "Contact name must be at least 2 characters long")
 		.optional(),
 
-	contactPhone: z
-		.string()
-		.trim()
-		.min(5, "Contact phone is invalid")
-		.optional(),
+	contactPhone: z.string().trim().min(5, "Contact phone is invalid").optional(),
 
 	contactEmail: z
 		.email("Invalid contact email address")
@@ -88,11 +75,7 @@ const PropertyDataSchema = z.object({
 		.toLowerCase()
 		.optional(),
 
-	status: z.enum([
-		"PENDING",
-		"APPROVED",
-		"REJECTED",
-	]),
+	status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
 });
 export const CreatePropertyValidationZodSchema = z.object({
 	data: z
@@ -127,17 +110,18 @@ const updatedPropertyDataSchema = z.object({
 		.max(2000, "Description cannot exceed 2000 characters")
 		.optional(),
 
-	propertyType: z.enum([
-		"APARTMENT",
-		"HOUSE",
-		"SUBLET",
-		"ROOM",
-		"BACHELOR_ROOM",
-		"FAMILY_APARTMENT",
-		"SHARED_APARTMENT",
-		"HOSTEL",
-	])
-	.optional(),
+	propertyType: z
+		.enum([
+			"APARTMENT",
+			"HOUSE",
+			"SUBLET",
+			"ROOM",
+			"BACHELOR_ROOM",
+			"FAMILY_APARTMENT",
+			"SHARED_APARTMENT",
+			"HOSTEL",
+		])
+		.optional(),
 
 	address: z
 		.string()
@@ -149,17 +133,14 @@ const updatedPropertyDataSchema = z.object({
 		.string()
 		.trim()
 		.min(2, "City must be at least 2 characters long")
-        .optional(),
+		.optional(),
 	area: z
 		.string()
 		.trim()
 		.min(2, "Area must be at least 2 characters long")
 		.optional(),
 
-	rent: z
-		.number()
-		.min(0, "Rent cannot be negative")
-		.optional(),
+	rent: z.number().min(0, "Rent cannot be negative").optional(),
 
 	securityDeposit: z
 		.number()
@@ -183,11 +164,7 @@ const updatedPropertyDataSchema = z.object({
 		.min(0, "Available rooms cannot be negative")
 		.optional(),
 
-	furnished: z.enum([
-		"FURNISHED",
-		"SEMI_FURNISHED",
-		"UNFURNISHED",
-	]).optional(),
+	furnished: z.enum(["FURNISHED", "SEMI_FURNISHED", "UNFURNISHED"]).optional(),
 
 	contactName: z
 		.string()
@@ -195,11 +172,7 @@ const updatedPropertyDataSchema = z.object({
 		.min(2, "Contact name must be at least 2 characters long")
 		.optional(),
 
-	contactPhone: z
-		.string()
-		.trim()
-		.min(5, "Contact phone is invalid")
-		.optional(),
+	contactPhone: z.string().trim().min(5, "Contact phone is invalid").optional(),
 
 	contactEmail: z
 		.email("Invalid contact email address")
@@ -207,11 +180,7 @@ const updatedPropertyDataSchema = z.object({
 		.toLowerCase()
 		.optional(),
 
-	status: z.enum([
-		"PENDING",
-		"APPROVED",
-		"REJECTED",
-	]).optional(),
+	status: z.enum(["PENDING", "APPROVED", "REJECTED"]).optional(),
 });
 export const updatedPropertyValidationZodSchema = z.object({
 	data: z
