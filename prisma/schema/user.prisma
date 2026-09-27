@@ -11,6 +11,8 @@ model User {
   needPasswordChange Boolean      @default(false)
   imageUrl           String       @default("")
   imagePublicId      String       @default("")
+  booking            Booking[]
+  payment            Payment[]
   isDeleted          Boolean      @default(false)
   deletedAt          DateTime?
   createdAt          DateTime     @default(now())

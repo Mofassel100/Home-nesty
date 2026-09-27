@@ -4,7 +4,13 @@ enum Role {
   PROVIDER
   CUSTOMER
 }
-
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
 enum UserStatus {
   ACTIVE
   BLOCKED
@@ -30,13 +36,6 @@ enum BookedStatus {
   COMPLETED
 }
 
-enum PaymentStatus {
-  UNPAID
-  PAID
-  FAILED
-  CANCELLED
-  REFUNDED
-}
 
 
 

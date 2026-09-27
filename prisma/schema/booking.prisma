@@ -1,0 +1,26 @@
+model Booking {
+  id          String        @id @default(uuid())
+
+  propertyId  String
+  customerId  String
+
+  startDate   DateTime
+  endDate     DateTime?
+
+  guests      Int           @default(1)
+
+  totalAmount Decimal       @db.Decimal(12, 2)
+
+  status      BookingStatus @default(PENDING)
+
+  property    Property      @relation(fields: [propertyId], references: [id])
+  customer    User          @relation(fields: [customerId], references: [id])
+  payments    Payment[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([propertyId])
+  @@index([customerId])
+  @@index([status])
+}

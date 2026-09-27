@@ -1,0 +1,30 @@
+model Payment {
+  id            String        @id @default(uuid())
+
+  amount        Decimal       @db.Decimal(12, 2)
+  paymentGateway        String @default("bkash")
+  merchantInvoiceNumber String @unique
+  status        PaymentStatus @default(UNPAID)
+  bkashPaymentId String? @unique
+ bkashTrxId     String?
+  payerReference String? // user email / phone number
+  transactionId String?       @unique
+  paidAt       DateTime?
+  gatewayResponse Json?
+
+  refundTrxId  String?
+  refundAmount Decimal? @db.Decimal(10, 2)
+  refundReason String?
+  refundedAt   String?
+ bookingId     String
+  customerId    String
+  booking       Booking       @relation(fields: [bookingId], references: [id])
+  customer      User          @relation(fields: [customerId], references: [id])
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([bookingId])
+  @@index([customerId])
+  @@map("payments")
+}
