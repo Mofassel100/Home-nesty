@@ -61,11 +61,11 @@ const getAllOwnBooking = async (userId: string) => {
 	});
 	return result;
 };
-const getSingleOwnBooking = async (propertyId: string) => {
-	// const result = await prisma.property.findMany({
-	// 	where: { id: propertyId },
-	// });
-	// return result;
+const getSingleOwnBooking = async (bookingId: string) => {
+	const result = await prisma.booking.findUnique({
+		where: { id: bookingId },
+	});
+	return result;
 };
 
 // property update from db

@@ -28,7 +28,7 @@ const getAllOwnBooking = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Property Retrieved Successfully",
+        message: "Booking Retrieved Successfully",
         data: result,
     });
 });
@@ -39,7 +39,7 @@ const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Property Retrieved Successfully",
+        message: "Booking Retrieved Successfully",
         data: result,
     });
 });
@@ -59,7 +59,7 @@ const bookingUpdated = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
         success: true,
-        message: "property updated successfully!",
+        message: "Booking updated successfully!",
         data: result,
     });
 });
@@ -74,7 +74,7 @@ const deletedBooking = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Property deleted s Successfully",
+        message: "Booking deleted s Successfully",
         data: result,
     });
 });
