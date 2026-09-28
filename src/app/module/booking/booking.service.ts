@@ -104,23 +104,23 @@ const deleteBooking = async (bookingId: string, userId: string) => {
 		where: { id: userId },
 	});
 
-	// if (!user) {
-	// 	throw new AppError(httpStatus.NOT_FOUND, "User Profile Not Found");
-	// }
+	if (!user) {
+		throw new AppError(httpStatus.NOT_FOUND, "User Profile Not Found");
+	}
 
-	// const getBooking= await prisma.booking.findUnique({
-	// 	where: { id: bookingId },
-	// });	if (!getBooking) {
-	// 	throw new AppError(httpStatus.NOT_FOUND, "Booking Not Found");
-	// }
+	const getBooking= await prisma.booking.findUnique({
+		where: { id: bookingId },
+	});	if (!getBooking) {
+		throw new AppError(httpStatus.NOT_FOUND, "Booking Not Found");
+	}
 
 
-	// const deletedBooking = await prisma.property.delete({
-	// 	where: { id: getBooking.id },
+	const deletedBooking = await prisma.property.delete({
+		where: { id: getBooking.id },
 	
-	// });
+	});
 
-	// return deletedBooking;
+	return deletedBooking;
 };
 
 export const BookingService = {
