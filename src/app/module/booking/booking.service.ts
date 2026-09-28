@@ -74,29 +74,29 @@ const updatedBooking = async (
 	userId: string,
 	bookingId: string,
 ) => {
-// 	const ifExisBooking = await prisma.booking.findUnique({
-// 		where: {
-// 			id: bookingId,
-// 		},
+	const ifExisBooking = await prisma.booking.findUnique({
+		where: {
+			id: bookingId,
+		},
 	
-// 	});
-// if(!ifExisBooking){
-//   throw new Error("Booking not found")
-// }
+	});
+if(!ifExisBooking){
+  throw new Error("Booking not found")
+}
 
-// 	const updatedBooking = await prisma.booking.update({
-// 		where: {
-// 			id: ifExisBooking.id,
-// 		},
-// 		data: {
-// 			endDate:payload.endDate,
-//       startDate:payload.startDate,
-//       status: payload.status,
-//       guests:payload.guests,
-//       totalAmount:payload.totalAmount
-// 		},
-// 	});
-// 	return updatedBooking;
+	const updatedBooking = await prisma.booking.update({
+		where: {
+			id: ifExisBooking.id,
+		},
+		data: {
+			endDate:payload.endDate,
+      startDate:payload.startDate,
+      status: payload.status,
+      guests:payload.guests,
+      totalAmount:payload.totalAmount
+		},
+	});
+	return updatedBooking;
 };
 
 const deleteBooking = async (bookingId: string, userId: string) => {

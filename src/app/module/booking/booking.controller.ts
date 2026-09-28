@@ -57,7 +57,7 @@ const bookingUpdated = catchAsync(async (req: Request, res: Response) => {
     );
 
     sendResponse(res, {
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.UPGRADE_REQUIRED,
         success: true,
         message: "Booking updated successfully!",
         data: result,
