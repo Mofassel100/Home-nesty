@@ -3,7 +3,7 @@ model Booking {
 
   propertyId  String
   customerId  String
- bookingNumber String        @unique
+   bookingNumber String        @unique
   startDate   DateTime
   endDate     DateTime?
 
@@ -13,8 +13,8 @@ model Booking {
 
   status      BookingStatus @default(PENDING)
 
-  property    Property      @relation(fields: [propertyId], references: [id])
-  customer    User          @relation(fields: [customerId], references: [id])
+  property    Property      @relation(fields: [propertyId], references: [id],onDelete: Cascade)
+  customer    User          @relation(fields: [customerId], references: [id],onDelete: Cascade)
   payments    Payment[]
 
   createdAt   DateTime      @default(now())

@@ -3,6 +3,8 @@
 import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
 import { generateBookingNumber } from "./booking.constant";
+import { IBookingUpdated } from "./booking.interface";
+import { AppError } from "../../utils/AppError";
 
 const bookingCreate = async (
   payload: {
@@ -53,11 +55,78 @@ const startDate = new Date();
   return booking;
 };
 
+const getAllOwnBooking = async (userId: string) => {
+	const result = await prisma.booking.findMany({
+		where: { customerId: userId },
+	});
+	return result;
+};
+const getSingleOwnBooking = async (propertyId: string) => {
+	// const result = await prisma.property.findMany({
+	// 	where: { id: propertyId },
+	// });
+	// return result;
+};
+
+// property update from db
+const updatedBooking = async (
+	payload:IBookingUpdated ,
+	userId: string,
+	bookingId: string,
+) => {
+// 	const ifExisBooking = await prisma.booking.findUnique({
+// 		where: {
+// 			id: bookingId,
+// 		},
+	
+// 	});
+// if(!ifExisBooking){
+//   throw new Error("Booking not found")
+// }
+
+// 	const updatedBooking = await prisma.booking.update({
+// 		where: {
+// 			id: ifExisBooking.id,
+// 		},
+// 		data: {
+// 			endDate:payload.endDate,
+//       startDate:payload.startDate,
+//       status: payload.status,
+//       guests:payload.guests,
+//       totalAmount:payload.totalAmount
+// 		},
+// 	});
+// 	return updatedBooking;
+};
+
+const deleteBooking = async (bookingId: string, userId: string) => {
+	const user = await prisma.user.findUnique({
+		where: { id: userId },
+	});
+
+	// if (!user) {
+	// 	throw new AppError(httpStatus.NOT_FOUND, "User Profile Not Found");
+	// }
+
+	// const getBooking= await prisma.booking.findUnique({
+	// 	where: { id: bookingId },
+	// });	if (!getBooking) {
+	// 	throw new AppError(httpStatus.NOT_FOUND, "Booking Not Found");
+	// }
+
+
+	// const deletedBooking = await prisma.property.delete({
+	// 	where: { id: getBooking.id },
+	
+	// });
+
+	// return deletedBooking;
+};
 
 export const BookingService = {
     bookingCreate,
-    // getAllOwnProperty,
-    // getSingleOwnProperty,
-    // deleteProperty,
-    // propertyUpdated,
+    getAllOwnBooking,
+    getSingleOwnBooking,
+    deleteBooking,
+      updatedBooking,
 };

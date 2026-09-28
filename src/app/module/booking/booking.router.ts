@@ -15,30 +15,29 @@ router.post(
     BookingController.bookingCreate
 );
 
-// router.get(
-//     "/",
-//     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
-//     // validateRequest
-//     PropertyController.getAllOwnProperty,
-// );
-// router.get(
-//     "/:id",
-//     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
-//     // validateRequest
-//     PropertyController.getSingleProperty,
-// );
-// router.patch(
-//     "/:id",
-//     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
-//     upload.single("propertyUpdate"),
-//     validateRequest(updatedPropertyValidationZodSchema),
-//     PropertyController.propertyUpdated,
-// );
-// router.delete(
-//     "/:id",
-//     auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
-//     // validateRequest
-//     PropertyController.deletedProperty,
-// );
+router.get(
+    "/",
+    auth(Role.ADMIN, Role.PROVIDER,Role.CUSTOMER, Role.SUPER_ADMIN),
+    // validateRequest
+    BookingController.getAllOwnBooking,
+);
+router.get(
+    "/:id",
+    auth(Role.ADMIN, Role.PROVIDER,Role.CUSTOMER, Role.SUPER_ADMIN),
+    // validateRequest
+    BookingController.getSingleBooking,
+);
+router.patch(
+    "/:id",
+    auth(Role.ADMIN, Role.PROVIDER,Role.CUSTOMER, Role.SUPER_ADMIN),
+    // validateRequest(updatedBValidationZodSchema),
+    BookingController.bookingUpdated,
+);
+router.delete(
+    "/:id",
+    auth(Role.ADMIN, Role.PROVIDER,Role.CUSTOMER, Role.SUPER_ADMIN),
+    // validateRequest
+    BookingController.deletedBooking,
+);
 
 export const BookingRoutes = router;
