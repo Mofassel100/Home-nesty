@@ -11,6 +11,7 @@ import config from "./app/config";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import router from "./app/routes";
+import { getBkashIdToken } from "./app/lib/bkash";
 
 const app: Application = express();
 
@@ -28,6 +29,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/test", async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const grantIdTokenResult = await getBkashIdToken();
+
+		console.log(grantIdTokenResult);
+
+		res.status(httpStatus.OK).json({
+			success: true,
+			message: "Welcome to PH Healthcare System Backend",
+			data: null,
+		});
+	} catch (error) {
+		console.log(error);
+		next(error);
+	}
+});
 app.use("/api/v1", router);
 
 // Basic route

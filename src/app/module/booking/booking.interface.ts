@@ -12,3 +12,16 @@ export interface IBookingUpdated {
   guests?: number;
   totalAmount?: number;
 }
+
+
+export interface IPayBookingPayload {
+    bookingId: string;
+}
+export interface ICancelBookingPayload {
+    bookingId: string;
+}
+
+export interface IUpdateBookingStatusPayload {
+    status: "ONGOING" | "COMPLETED";
+    // status: AppointmentStatus
+}

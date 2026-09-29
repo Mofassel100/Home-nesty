@@ -14,7 +14,20 @@ router.post(
     auth(Role.CUSTOMER),
     BookingController.bookingCreate
 );
-
+router.post("/pay-booking",
+    auth(Role.CUSTOMER),
+    BookingController.payBooking
+)
+//book appointment callback url
+router.get(
+	"/payment/callback",
+BookingController.bookingCallback,
+);
+router.patch(
+	"/update-status/:bookingId",
+	auth(Role.CUSTOMER),
+	BookingController.updateBookingStatus,
+);
 router.get(
     "/",
     auth(Role.ADMIN, Role.PROVIDER,Role.CUSTOMER, Role.SUPER_ADMIN),

@@ -15,8 +15,8 @@ model Payment {
   refundTrxId  String?
   refundAmount Decimal? @db.Decimal(10, 2)
   refundReason String?
-  refundedAt   String?
- bookingId     String
+  refundedAt   String?     
+ bookingId     String       @unique
   customerId    String
   booking       Booking       @relation(fields: [bookingId], references: [id])
   customer      User          @relation(fields: [customerId], references: [id])

@@ -21,6 +21,54 @@ const bookingCreate = catchAsync(async (req: Request, res: Response) => {
         data: result,
     });
 });
+
+const payBooking = catchAsync(async (req: Request, res: Response) => {
+	const payload = req.body;
+	const user = req.user!;
+
+	const result = await BookingService.payBooking(payload, user);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Booking Payment Initiated Successfully",
+		data: result,
+	});
+});
+const bookingCallback = catchAsync(
+	async (req: Request, res: Response) => {
+		const { redirectUrl } = await BookingService.bookingCallback(
+			req.query,
+		);
+
+		res.redirect(redirectUrl);
+		// sendResponse(res, {
+		//     statusCode: httpStatus.OK,
+		//     success: true,
+		//     message: "User profile fetched successfully",
+		//     data: result,
+		// });
+	},
+);
+const updateBookingStatus = catchAsync(
+	async (req: Request, res: Response) => {
+		// const appointmentId = req.params.appointmentId as string;
+		// const payload = req.body;
+		// const user = req.user!;
+
+		// const result = await BookingService.updateBookingStatus(
+		// 	appointmentId,
+		// 	payload,
+		// 	user,
+		// );
+		// sendResponse(res, {
+		// 	statusCode: httpStatus.OK,
+		// 	success: true,
+		// 	message: "Booking Status Updated Successfully",
+		// 	data: result,
+		// });
+	},
+);
+
 const getAllOwnBooking = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId;
 
@@ -84,4 +132,8 @@ export const BookingController = {
     getSingleBooking,
     deletedBooking,
     bookingUpdated,
+    payBooking,
+    updateBookingStatus,
+    bookingCallback
+
 };
