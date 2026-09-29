@@ -112,16 +112,18 @@ const getAllPayments = async (query: IQuery) => {
 }
 
 const getSinglePayment = async (paymentId: string, user: RequestUser) => {
-    const payment = await prisma.payment.findUnique({
-        where: { id: paymentId },
-        include: {
+    console.log(paymentId)
+    const payment = await prisma.payment.findFirst({
+        where: { bkashPaymentId: paymentId },
+         include: {
             booking: {
                 include: {
                     customer: {
-                        select: { id: true, name: true, email: true, userId: true },
+                        select: { id: true, name: true, email: true, },
                     },
                     property: { select: { id: true, title: true, availableRooms: true,city:true,address:true,area:true  } },
                    
+                    
                 },
             },
         },
@@ -132,7 +134,7 @@ const getSinglePayment = async (paymentId: string, user: RequestUser) => {
     }
 
     if (user.role === Role.CUSTOMER) {
-        if (payment.booking.customer.userId !== user.userId) {
+        if (payment.booking.customer.id !== user.userId) {
             throw new AppError(
                 httpStatus.FORBIDDEN,
                 "You Are Not Allowed To View This Payment",
