@@ -8,7 +8,7 @@ import { AppError } from "../../utils/AppError";
 import { RequestUser } from "../../middleware/checkAuth";
 import { getBkashIdToken } from "../../lib/bkash";
 import config from "../../config";
-import { BookedStatus, BookingStatus, PaymentStatus } from "../../../generated/prisma/enums";
+import { BookedStatus,  PaymentStatus } from "../../../generated/prisma/enums";
 import PDFDocument from "pdfkit";
 import { transporter } from "../../lib/nodemailer";
 const bookingCreate = async (
@@ -58,16 +58,7 @@ const startDate = new Date();
 			}
 		})
 
-		// if(existingBooking?.status === BookingStatus.PENDING){
-		// 	throw new AppError(httpStatus.BAD_REQUEST, "You Already Have A Pending Booking. Please Pay For That")
-		// }
-		// if(existingBooking?.status === BookingStatus.CONFIRMED){
-		// 	throw new AppError(httpStatus.BAD_REQUEST, "You Already Have A Confirmed Booking.")
-		// }
-	
-		// if(existingBooking?.status === BookingStatus.COMPLETED){
-		// 	throw new AppError(httpStatus.BAD_REQUEST, "You Already Have Completed An Booking On This Schedule. Please Try Again Another Day")
-		// }
+		
 
 
 		const booking = await tx.booking.create({
@@ -140,31 +131,7 @@ const startDate = new Date();
 
 	return transactionResult;
 
-//   // Generate booking number
-  
 
-//   // Example: calculate total amount
-  
-
-//   // Create booking
-//   const booking = await prisma.booking.create({
-//     data: {
-//       bookingNumber,
-//       propertyId: payload.propertyId,
-//       startDate,
-//       endDate,
-//       customerId:userId,
-//       guests:guests,
-//       totalAmount,
-//     },
-//     include:{
-//         customer:true,
-//         payments:true,
-//         property:true
-//     }
-//   });
-
-//   return booking;
 };
 
 
@@ -186,9 +153,6 @@ const payBooking = async (payload: IPayBookingPayload, user: RequestUser) => {
 	if (existingBooking.status !== "PENDING") {
 		throw new AppError(httpStatus.BAD_REQUEST, "booking Is Not Pending!");
 	}
-
-	
-
 
 
 	const amount = existingBooking.totalAmount.toString();
@@ -224,18 +188,6 @@ const payBooking = async (payload: IPayBookingPayload, user: RequestUser) => {
   console.log(bkashCreatePaymentResponse)
 	const bkashCreatePaymentResult = await bkashCreatePaymentResponse.json();
 
-	// await prisma.payment.update({
-	// 	where: {
-  //     bookingId:existingBooking.id
-	// 		// appointmentId: existingAppointment.id,
-	// 	},
-
-	// 	data: {
-	// 		merchantInvoiceNumber: bkashCreatePaymentResult.merchantInvoiceNumber,
-	// 		gatewayResponse: bkashCreatePaymentResult,
-	// 		bkashPaymentId: bkashCreatePaymentResult.paymentID,
-	// 	},
-	// });
 
 	return {
 		paymentUrl: bkashCreatePaymentResult.bkashURL,
