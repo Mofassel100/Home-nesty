@@ -12,5 +12,10 @@ router.get(
     auth( Role.ADMIN),
     AdminController.getMyUser,
 );
+router.get(
+    "/payment-all",
+    auth( Role.ADMIN),
+    AdminController.getAllPayments,
+);
 
 export const AdminRoutes = router;
