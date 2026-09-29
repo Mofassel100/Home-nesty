@@ -1,15 +1,16 @@
-// import { Router } from "express";
-// import { Role } from "../../../generated/prisma/enums";
-// import { auth } from "../../middleware/checkAuth";
+import { Router } from "express";
+import { Role } from "../../../generated/prisma/enums";
+import { auth } from "../../middleware/checkAuth";
+import { AdminController } from "./admin.controller";
 
 
 
-// const router = Router();
+const router = Router();
 
-// router.patch(
-//     "/user",
-//     auth( Role.ADMIN),
-//     AdminController.adminUserUpdated,
-// );
+router.get(
+    "/user-all",
+    auth( Role.ADMIN),
+    AdminController.getMyUser,
+);
 
-// export const AdminRoutes = router;
+export const AdminRoutes = router;
