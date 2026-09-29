@@ -22,5 +22,10 @@ router.get(
     auth( Role.ADMIN),
     AdminController.getAllProperty,
 );
+router.get(
+    "/booking-all",
+    auth( Role.ADMIN),
+    AdminController.getAllBooking,
+);
 
 export const AdminRoutes = router;

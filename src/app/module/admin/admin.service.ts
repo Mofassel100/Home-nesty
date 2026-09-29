@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { Role } from "../../../generated/prisma/enums";
-import { PaymentWhereInput, PropertyWhereInput, UserWhereInput } from "../../../generated/prisma/models";
+import { BookingWhereInput, PaymentWhereInput, PropertyWhereInput, UserWhereInput } from "../../../generated/prisma/models";
 import { IQuery } from "../../interfaces";
 import { prisma } from "../../lib/prisma";
 import { RequestUser } from "../../middleware/checkAuth";
@@ -178,6 +178,66 @@ const getAllPropertys = async (query : IQuery, user : RequestUser) => {
 
 
 }
+const getAllBooking = async (query : IQuery, user : RequestUser) => {
+
+    const limit = query.limit ? Number(query.limit) : 10;
+    const page = query.page ? Number(query.page) : 1;
+    const skip = (page - 1) * limit;
+    const sortBy = query.sortBy ? query.sortBy : "createdAt";
+    const sortOrder = query.sortOrder ? query.sortOrder : "desc"
+
+    const admin = await prisma.user.findUnique({
+        where: {id: user.userId },
+    });
+
+    if (!admin) {
+        throw new AppError(httpStatus.NOT_FOUND, " Profile Not Found");
+    }
+
+ const andConditions: BookingWhereInput[] = [];
+
+	// Search by email
+	// if (query.pay) {
+	// 	andConditions.push({
+	// 		title: {
+	// 			contains: query.title,
+	// 			mode: "insensitive",
+	// 		},
+	// 	});
+	// }
+	// // Search by email
+	// if (query.description) {
+	// 	andConditions.push({
+	// 		description: {
+	// 			contains: query.description,
+	// 			mode: "insensitive",
+	// 		},
+	// 	});
+	// }
+
+    const property = await prisma.booking.findMany({
+        where: { AND : andConditions },
+        take: limit,
+        skip,
+        orderBy: { [sortBy] : sortOrder },
+    });
+
+    const total = await prisma.booking.count({
+        where: { AND : andConditions },
+    });
+
+    return {
+        data: property,
+        meta: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        },
+    };
+
+
+}
 // const getSinglePayment = async (paymentId: string, user: RequestUser) => {
 //     console.log(paymentId)
 //     const payment = await prisma.payment.findFirst({
@@ -216,4 +276,5 @@ export const AdminServices = {
     getMyUser,
     getAllPayments,
     getAllPropertys,
+    getAllBooking
 }

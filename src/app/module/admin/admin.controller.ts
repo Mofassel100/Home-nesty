@@ -39,6 +39,17 @@ const getAllProperty = catchAsync(async (req: Request, res: Response) => {
         meta,
     });
 });
+const getAllBooking = catchAsync(async (req: Request, res: Response) => {
+     const user = req.user!;
+    const { data, meta } = await AdminServices.getAllBooking(req.query,user);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Booking Retrieved Successfully",
+        data,
+        meta,
+    });
+});
 
 // const getSinglePayment = catchAsync(async (req: Request, res: Response) => {
 //     const paymentId = req.params.paymentId as string;
@@ -56,5 +67,6 @@ const getAllProperty = catchAsync(async (req: Request, res: Response) => {
 export const AdminController = {
    getMyUser,
    getAllPayments,
-   getAllProperty
+   getAllProperty,
+   getAllBooking
 };
