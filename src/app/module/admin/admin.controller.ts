@@ -28,6 +28,17 @@ const getAllPayments = catchAsync(async (req: Request, res: Response) => {
         meta,
     });
 });
+const getAllProperty = catchAsync(async (req: Request, res: Response) => {
+     const user = req.user!;
+    const { data, meta } = await AdminServices.getAllPropertys(req.query,user);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Property Retrieved Successfully",
+        data,
+        meta,
+    });
+});
 
 // const getSinglePayment = catchAsync(async (req: Request, res: Response) => {
 //     const paymentId = req.params.paymentId as string;
@@ -44,5 +55,6 @@ const getAllPayments = catchAsync(async (req: Request, res: Response) => {
 
 export const AdminController = {
    getMyUser,
-   getAllPayments
+   getAllPayments,
+   getAllProperty
 };

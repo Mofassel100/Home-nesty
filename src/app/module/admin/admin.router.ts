@@ -17,5 +17,10 @@ router.get(
     auth( Role.ADMIN),
     AdminController.getAllPayments,
 );
+router.get(
+    "/property-all",
+    auth( Role.ADMIN),
+    AdminController.getAllProperty,
+);
 
 export const AdminRoutes = router;
