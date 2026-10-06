@@ -175,11 +175,12 @@ const verifyUserEmail = async (payload: IVerifyEmailPayload) => {
 	await transporter.sendMail({
 		from: config.email_sender,
 		to: email,
-		subject: "Welcome To PH Home nesty",
+		subject: "Welcome To HN Home nesty",
 		// text : `Your OTP is ${otp}`
 		// html: `<h1>Your OTP is ${otp}</h1>`
 		html,
 	});
+	
 
 	const { ...user } = createdUser;
 	const jwtPayload = {

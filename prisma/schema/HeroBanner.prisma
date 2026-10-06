@@ -1,0 +1,17 @@
+model  HomeBanner{
+   id          String   @id @default(uuid())
+  image       String
+  title       String
+  description String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  imagePublicId String?
+  userId String
+  user   User     @relation(fields: [userId], references: [id],onDelete: Cascade) 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ @@index([updatedAt])
+  @@index([isActive])
+  @@index([sortOrder])      
+
+}

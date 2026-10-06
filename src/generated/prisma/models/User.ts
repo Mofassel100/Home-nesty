@@ -272,6 +272,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   booking?: Prisma.BookingListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
+  homeBanner?: Prisma.HomeBannerListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -293,6 +294,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   booking?: Prisma.BookingOrderByRelationAggregateInput
   payment?: Prisma.PaymentOrderByRelationAggregateInput
+  homeBanner?: Prisma.HomeBannerOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -317,6 +319,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   booking?: Prisma.BookingListRelationFilter
   payment?: Prisma.PaymentListRelationFilter
+  homeBanner?: Prisma.HomeBannerListRelationFilter
 }, "id" | "googleId" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -382,6 +385,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   booking?: Prisma.BookingCreateNestedManyWithoutCustomerInput
   payment?: Prisma.PaymentCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -403,6 +407,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   booking?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
   payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -424,6 +429,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
   payment?: Prisma.PaymentUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -445,6 +451,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
   payment?: Prisma.PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -566,6 +573,20 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type UserCreateNestedOneWithoutHomeBannerInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHomeBannerInput, Prisma.UserUncheckedCreateWithoutHomeBannerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHomeBannerInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutHomeBannerNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutHomeBannerInput, Prisma.UserUncheckedCreateWithoutHomeBannerInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutHomeBannerInput
+  upsert?: Prisma.UserUpsertWithoutHomeBannerInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutHomeBannerInput, Prisma.UserUpdateWithoutHomeBannerInput>, Prisma.UserUncheckedUpdateWithoutHomeBannerInput>
+}
+
 export type UserCreateNestedOneWithoutBookingInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutBookingInput, Prisma.UserUncheckedCreateWithoutBookingInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookingInput
@@ -606,6 +627,106 @@ export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
 }
 
+export type UserCreateWithoutHomeBannerInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  imageUrl?: string
+  imagePublicId?: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  booking?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  payment?: Prisma.PaymentCreateNestedManyWithoutCustomerInput
+}
+
+export type UserUncheckedCreateWithoutHomeBannerInput = {
+  id?: string
+  name: string
+  email: string
+  password?: string | null
+  googleId?: string | null
+  authProvider?: $Enums.AuthProvider
+  emailVerified?: boolean
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  needPasswordChange?: boolean
+  imageUrl?: string
+  imagePublicId?: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  booking?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type UserCreateOrConnectWithoutHomeBannerInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutHomeBannerInput, Prisma.UserUncheckedCreateWithoutHomeBannerInput>
+}
+
+export type UserUpsertWithoutHomeBannerInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutHomeBannerInput, Prisma.UserUncheckedUpdateWithoutHomeBannerInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutHomeBannerInput, Prisma.UserUncheckedCreateWithoutHomeBannerInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutHomeBannerInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutHomeBannerInput, Prisma.UserUncheckedUpdateWithoutHomeBannerInput>
+}
+
+export type UserUpdateWithoutHomeBannerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imagePublicId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  booking?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  payment?: Prisma.PaymentUpdateManyWithoutCustomerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutHomeBannerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authProvider?: Prisma.EnumAuthProviderFieldUpdateOperationsInput | $Enums.AuthProvider
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  needPasswordChange?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  imagePublicId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  booking?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  payment?: Prisma.PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
 export type UserCreateWithoutBookingInput = {
   id?: string
   name: string
@@ -624,6 +745,7 @@ export type UserCreateWithoutBookingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payment?: Prisma.PaymentCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookingInput = {
@@ -644,6 +766,7 @@ export type UserUncheckedCreateWithoutBookingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payment?: Prisma.PaymentUncheckedCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookingInput = {
@@ -680,6 +803,7 @@ export type UserUpdateWithoutBookingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingInput = {
@@ -700,6 +824,7 @@ export type UserUncheckedUpdateWithoutBookingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUncheckedUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentInput = {
@@ -720,6 +845,7 @@ export type UserCreateWithoutPaymentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   booking?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentInput = {
@@ -740,6 +866,7 @@ export type UserUncheckedCreateWithoutPaymentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   booking?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  homeBanner?: Prisma.HomeBannerUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentInput = {
@@ -776,6 +903,7 @@ export type UserUpdateWithoutPaymentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentInput = {
@@ -796,6 +924,7 @@ export type UserUncheckedUpdateWithoutPaymentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  homeBanner?: Prisma.HomeBannerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -806,11 +935,13 @@ export type UserUncheckedUpdateWithoutPaymentInput = {
 export type UserCountOutputType = {
   booking: number
   payment: number
+  homeBanner: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | UserCountOutputTypeCountBookingArgs
   payment?: boolean | UserCountOutputTypeCountPaymentArgs
+  homeBanner?: boolean | UserCountOutputTypeCountHomeBannerArgs
 }
 
 /**
@@ -837,6 +968,13 @@ export type UserCountOutputTypeCountPaymentArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.PaymentWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountHomeBannerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HomeBannerWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -857,6 +995,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   booking?: boolean | Prisma.User$bookingArgs<ExtArgs>
   payment?: boolean | Prisma.User$paymentArgs<ExtArgs>
+  homeBanner?: boolean | Prisma.User$homeBannerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -921,6 +1060,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   booking?: boolean | Prisma.User$bookingArgs<ExtArgs>
   payment?: boolean | Prisma.User$paymentArgs<ExtArgs>
+  homeBanner?: boolean | Prisma.User$homeBannerArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -931,6 +1071,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     booking: Prisma.$BookingPayload<ExtArgs>[]
     payment: Prisma.$PaymentPayload<ExtArgs>[]
+    homeBanner: Prisma.$HomeBannerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1345,6 +1486,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   booking<T extends Prisma.User$bookingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payment<T extends Prisma.User$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  homeBanner<T extends Prisma.User$homeBannerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$homeBannerArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HomeBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1828,6 +1970,30 @@ export type User$paymentArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * User.homeBanner
+ */
+export type User$homeBannerArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HomeBanner
+   */
+  select?: Prisma.HomeBannerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HomeBanner
+   */
+  omit?: Prisma.HomeBannerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HomeBannerInclude<ExtArgs> | null
+  where?: Prisma.HomeBannerWhereInput
+  orderBy?: Prisma.HomeBannerOrderByWithRelationInput | Prisma.HomeBannerOrderByWithRelationInput[]
+  cursor?: Prisma.HomeBannerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HomeBannerScalarFieldEnum | Prisma.HomeBannerScalarFieldEnum[]
 }
 
 /**

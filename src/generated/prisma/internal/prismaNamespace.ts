@@ -397,6 +397,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  HomeBanner: 'HomeBanner',
   Booking: 'Booking',
   Payment: 'Payment',
   Property: 'Property',
@@ -416,10 +417,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "booking" | "payment" | "property" | "user"
+    modelProps: "homeBanner" | "booking" | "payment" | "property" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    HomeBanner: {
+      payload: Prisma.$HomeBannerPayload<ExtArgs>
+      fields: Prisma.HomeBannerFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HomeBannerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HomeBannerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        findFirst: {
+          args: Prisma.HomeBannerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HomeBannerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        findMany: {
+          args: Prisma.HomeBannerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>[]
+        }
+        create: {
+          args: Prisma.HomeBannerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        createMany: {
+          args: Prisma.HomeBannerCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HomeBannerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>[]
+        }
+        delete: {
+          args: Prisma.HomeBannerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        update: {
+          args: Prisma.HomeBannerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        deleteMany: {
+          args: Prisma.HomeBannerDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HomeBannerUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HomeBannerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>[]
+        }
+        upsert: {
+          args: Prisma.HomeBannerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HomeBannerPayload>
+        }
+        aggregate: {
+          args: Prisma.HomeBannerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHomeBanner>
+        }
+        groupBy: {
+          args: Prisma.HomeBannerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HomeBannerGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HomeBannerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HomeBannerCountAggregateOutputType> | number
+        }
+      }
+    }
     Booking: {
       payload: Prisma.$BookingPayload<ExtArgs>
       fields: Prisma.BookingFieldRefs
@@ -755,6 +830,22 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const HomeBannerScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  title: 'title',
+  description: 'description',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  imagePublicId: 'imagePublicId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HomeBannerScalarFieldEnum = (typeof HomeBannerScalarFieldEnum)[keyof typeof HomeBannerScalarFieldEnum]
+
+
 export const BookingScalarFieldEnum = {
   id: 'id',
   propertyId: 'propertyId',
@@ -911,16 +1002,9 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'DateTime'
+ * Reference to a field of type 'Boolean'
  */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -935,6 +1019,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -1033,13 +1131,6 @@ export type EnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'PropertyStatus[]'
  */
 export type ListEnumPropertyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PropertyStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -1249,6 +1340,7 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
  */
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
+  homeBanner?: Prisma.HomeBannerOmit
   booking?: Prisma.BookingOmit
   payment?: Prisma.PaymentOmit
   property?: Prisma.PropertyOmit

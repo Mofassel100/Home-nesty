@@ -13,6 +13,7 @@ model User {
   imagePublicId      String       @default("")
   booking            Booking[]
   payment            Payment[]
+  homeBanner   HomeBanner[]
   isDeleted          Boolean      @default(false)
   deletedAt          DateTime?
   createdAt          DateTime     @default(now())
