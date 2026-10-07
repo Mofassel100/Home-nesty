@@ -54,7 +54,7 @@ const propertyCreate = async (
 	const createProperty = await prisma.property.create({
 		data: {
 			ownerId: userId,
-
+            providerId:userId,
 			title: payload.title,
 			description: payload.description,
 

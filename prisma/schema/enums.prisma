@@ -11,6 +11,12 @@ enum PaymentStatus {
   CANCELLED
   REFUNDED
 }
+
+enum ProviderStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
 enum UserStatus {
   ACTIVE
   BLOCKED
@@ -54,6 +60,17 @@ enum PropertyType {
   HOSTEL
 }
 
+enum PropertyCategory {
+  RESIDENTIAL
+  FAMILY
+  BACHELOR
+  STUDENT
+  HOSTEL
+  SUBLET
+  COMMERCIAL
+  OFFICE
+  RETAIL
+}
 enum PropertyStatus {
   DRAFT
   PENDING

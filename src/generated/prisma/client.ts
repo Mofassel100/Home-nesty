@@ -62,6 +62,11 @@ export type Payment = Prisma.PaymentModel
  */
 export type Property = Prisma.PropertyModel
 /**
+ * Model Provider
+ * 
+ */
+export type Provider = Prisma.ProviderModel
+/**
  * Model User
  * 
  */

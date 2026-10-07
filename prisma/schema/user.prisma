@@ -14,6 +14,8 @@ model User {
   booking            Booking[]
   payment            Payment[]
   homeBanner   HomeBanner[]
+  provider         Provider?
+  reviewedProviders Provider[] @relation("ProviderReviewedBy")
   isDeleted          Boolean      @default(false)
   deletedAt          DateTime?
   createdAt          DateTime     @default(now())

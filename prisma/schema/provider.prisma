@@ -1,0 +1,50 @@
+model Provider {
+  id                String         @id @default(uuid())
+
+  // Relation with User
+  userId            String         @unique
+  user              User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Provider information
+  businessName      String?
+  fullName          String
+  phone             String
+  email             String
+  address           String
+  city              String
+
+  // Professional information
+  nidNumber         String?        @unique
+  tradeLicense      String?        @unique
+  experience        Int?
+  description       String?
+
+  // Documents / verification
+  nidDocument       String?
+  nidPublicId   String?
+  profileImage      String?
+  verificationStatus ProviderStatus @default(PENDING)
+  additionalFiles Json? 
+    isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+  // Admin approval
+  status            ProviderStatus @default(PENDING)
+  rejectionReason   String?
+
+  approvedAt        DateTime?
+  rejectedAt        DateTime?
+
+  // Which admin reviewed it
+  reviewedById      String?
+  reviewedBy        User?          @relation("ProviderReviewedBy", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+ 
+  // Provider's properties
+  Property       Property[]
+
+  @@index([status])
+  @@index([city])
+  @@index([reviewedById])
+}

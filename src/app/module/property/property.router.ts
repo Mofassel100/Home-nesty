@@ -22,7 +22,7 @@ router.post(
 
 router.get(
 	"/",
-	auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
+	// auth(Role.ADMIN, Role.PROVIDER, Role.SUPER_ADMIN),
 	// validateRequest
 	PropertyController.getAllOwnProperty,
 );

@@ -30,6 +30,15 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const ProviderStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ProviderStatus = (typeof ProviderStatus)[keyof typeof ProviderStatus]
+
+
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
   BLOCKED: 'BLOCKED',
@@ -87,6 +96,21 @@ export const PropertyType = {
 } as const
 
 export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
+
+
+export const PropertyCategory = {
+  RESIDENTIAL: 'RESIDENTIAL',
+  FAMILY: 'FAMILY',
+  BACHELOR: 'BACHELOR',
+  STUDENT: 'STUDENT',
+  HOSTEL: 'HOSTEL',
+  SUBLET: 'SUBLET',
+  COMMERCIAL: 'COMMERCIAL',
+  OFFICE: 'OFFICE',
+  RETAIL: 'RETAIL'
+} as const
+
+export type PropertyCategory = (typeof PropertyCategory)[keyof typeof PropertyCategory]
 
 
 export const PropertyStatus = {

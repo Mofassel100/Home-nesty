@@ -55,6 +55,7 @@ export const ModelName = {
   Booking: 'Booking',
   Payment: 'Payment',
   Property: 'Property',
+  Provider: 'Provider',
   User: 'User'
 } as const
 
@@ -137,6 +138,8 @@ export const PropertyScalarFieldEnum = {
   ownerId: 'ownerId',
   title: 'title',
   description: 'description',
+  category: 'category',
+  providerId: 'providerId',
   propertyType: 'propertyType',
   address: 'address',
   city: 'city',
@@ -160,6 +163,38 @@ export const PropertyScalarFieldEnum = {
 } as const
 
 export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
+
+
+export const ProviderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  businessName: 'businessName',
+  fullName: 'fullName',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
+  city: 'city',
+  nidNumber: 'nidNumber',
+  tradeLicense: 'tradeLicense',
+  experience: 'experience',
+  description: 'description',
+  nidDocument: 'nidDocument',
+  nidPublicId: 'nidPublicId',
+  profileImage: 'profileImage',
+  verificationStatus: 'verificationStatus',
+  additionalFiles: 'additionalFiles',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  approvedAt: 'approvedAt',
+  rejectedAt: 'rejectedAt',
+  reviewedById: 'reviewedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
