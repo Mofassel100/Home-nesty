@@ -54,8 +54,16 @@ export interface IApproveProviderPayload {
 }
 
 export interface IUpdateProviderProfilePayload {
-    address?: string;
-    bio?: string;
-    consultationFee?: number;
-    contactNumber?: string;
+  businessName?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  nidNumber?: string;
+  tradeLicense?: string;
+  experience?: number;
+  description?: string;
+  nidDocument?: string;
+  tradeLicenseDoc?: string;
+  profileImage?: string;
+   
 }

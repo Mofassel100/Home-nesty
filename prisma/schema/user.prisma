@@ -15,6 +15,7 @@ model User {
   payment            Payment[]
   homeBanner   HomeBanner[]
   provider         Provider?
+  question         Question[]
   reviewedProviders Provider[] @relation("ProviderReviewedBy")
   isDeleted          Boolean      @default(false)
   deletedAt          DateTime?

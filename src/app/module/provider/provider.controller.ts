@@ -49,34 +49,34 @@ const approveProvider = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "provider Email Verified Successfully",
+		message: "provider Email Verified Successfully && Approved",
 		data: result,
 	});
 });
 const getAllProviders = catchAsync(async (req: Request, res: Response) => {
 	
 
-	// const {data, meta} = await DoctorServices.getAllDoctors(req.query)
-	// sendResponse(res, {
-	// 	statusCode: httpStatus.OK,
-	// 	success: true,
-	// 	message: "provider Retrieved Successfully",
-	// 	data: data,
-	// 	meta : meta,
-	// });
+	const {data, meta} = await ProviderServices.getAllProviders(req.query)
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "provider Retrieved Successfully",
+		data: data,
+		meta : meta,
+	});
 });
 const updateProviderProfile = catchAsync(
 	async (req: Request, res: Response) => {
-		// const payload = req.body;
-		// const user = req.user!;
+		const payload = req.body;
+		const user = req.user!;
 
-		// const result = await DoctorServices.updateDoctorProfile(payload, user);
-		// sendResponse(res, {
-		// 	statusCode: httpStatus.OK,
-		// 	success: true,
-		// 	message: "Provider Profile Updated Successfully",
-		// 	data: result,
-		// });
+		const result = await ProviderServices.updateProviderProfile(payload, user);
+		sendResponse(res, {
+			statusCode: httpStatus.OK,
+			success: true,
+			message: "Provider Profile Updated Successfully",
+			data: result,
+		});
 	},
 );
 

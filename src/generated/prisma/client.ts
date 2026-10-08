@@ -67,6 +67,11 @@ export type Property = Prisma.PropertyModel
  */
 export type Provider = Prisma.ProviderModel
 /**
+ * Model Question
+ * 
+ */
+export type Question = Prisma.QuestionModel
+/**
  * Model User
  * 
  */

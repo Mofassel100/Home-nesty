@@ -13,8 +13,9 @@ import { prisma } from "../../lib/prisma";
 import { redisClient } from "../../lib/redis";
 import { RequestUser } from "../../middleware/checkAuth";
 import { AppError } from "../../utils/AppError";
-import {  IApproveProviderPayload, ICreateProvider, IVerifyProviderEmailPayload } from "./provider.interface";
+import {  IApproveProviderPayload, ICreateProvider, IUpdateProviderProfilePayload, IVerifyProviderEmailPayload } from "./provider.interface";
 import { ProviderStatus, Role } from "../../../generated/prisma/enums";
+import { ProviderWhereInput } from "../../../generated/prisma/models";
 
 const applyAsProvider = async (
 	payload: ICreateProvider,
@@ -284,123 +285,120 @@ const updatedProvider = await prisma.provider.update({
 
 const getAllProviders = async (query: IQuery) => {
 
-	// const limit = query.limit ? Number(query.limit) : 10;
-	// const page = query.page ? Number(query.page) : 1;
-	// const skip = (page - 1) * limit;
-	// const sortBy = query.sortBy ? query.sortBy : "createdAt";
-	// const sortOrder = query.sortOrder ? query.sortOrder : "desc"
+	const limit = query.limit ? Number(query.limit) : 10;
+	const page = query.page ? Number(query.page) : 1;
+	const skip = (page - 1) * limit;
+	const sortBy = query.sortBy ? query.sortBy : "createdAt";
+	const sortOrder = query.sortOrder ? query.sortOrder : "desc"
 
-	// const andConditions: ProviderWhereInput[] = []
+	const andConditions: ProviderWhereInput[] = []
 
-	// //Searching
-	// if (query.searchTerm) {
-	// 	andConditions.push({
-	// 		OR: [
-	// 			{ name: { contains: query.searchTerm, mode: "insensitive" } },
-	// 			{ email: { contains: query.searchTerm, mode: "insensitive" } },
-	// 			{
-	// 				specialization: {
-	// 					contains: query.searchTerm,
-	// 					mode: "insensitive",
-	// 				},
-	// 			},
-	// 			{
-	// 				licenseNumber: {
-	// 					contains: query.searchTerm,
-	// 					mode: "insensitive",
-	// 				},
-	// 			},
-	// 		],
-	// 	});
-	// }
+	//Searching
+	if (query.searchTerm) {
+		andConditions.push({
+			OR: [
+				{ fullName: { contains: query.searchTerm, mode: "insensitive" } },
+				{ email: { contains: query.searchTerm, mode: "insensitive" } },
+				{
+					businessName: {
+						contains: query.searchTerm,
+						mode: "insensitive",
+					},
+				},
+				{
+					nidNumber: {
+						contains: query.searchTerm,
+						mode: "insensitive",
+					},
+				},
+			],
+		});
+	}
 
-	// //filtering
-	// if (query.specialization) {
-	// 	andConditions.push({
-	// 		specialization: { equals: query.specialization, mode: "insensitive" },
-	// 	});
-	// }
+	//filtering
+	if (query.businessName) {
+		andConditions.push({
+			businessName: { equals: query.businessName, mode: "insensitive" },
+		});
+	}
 
-	// if (query.email) {
-	// 	andConditions.push({
-	// 		email: { contains: query.email, mode: "insensitive" },
-	// 	});
-	// }
+	if (query.email) {
+		andConditions.push({
+			email: { contains: query.email, mode: "insensitive" },
+		});
+	}
 
-	// if (query.licenseNumber) {
-	// 	andConditions.push({
-	// 		licenseNumber: { equals: query.licenseNumber, mode: "insensitive" },
-	// 	});
-	// }
+	if (query.nidNumber) {
+		andConditions.push({
+			nidNumber: { equals: query.nidNumber, mode: "insensitive" },
+		});
+	}
 
-	// if (query.verificationStatus) {
-	// 	andConditions.push({
-	// 		verificationStatus: query.verificationStatus as ProviderVerificationStatus,
-	// 	});
-	// }
+	if (query.verificationStatus) {
+		andConditions.push({
+			verificationStatus: query.verificationStatus as ProviderStatus,
+		});
+	}
 
-	// andConditions.push({ isDeleted: false });
+	andConditions.push({ isDeleted: false });
 
-	// const allProviders = await prisma.Provider.findMany({
-	// 	where : {
-	// 		AND : andConditions.length > 0 ? andConditions : undefined
-	// 	},
+	const allProviders = await prisma.provider.findMany({
+		where : {
+			AND : andConditions.length > 0 ? andConditions : undefined
+		},
 
-	// 	take: limit,
-	// 	skip: skip,
+		take: limit,
+		skip: skip,
 
 
-	// 	orderBy: {
-	// 		// sortBy : sortOrder
-	// 		[sortBy]: sortOrder
-	// 	},
+		orderBy: {
+			// sortBy : sortOrder
+			[sortBy]: sortOrder
+		},
 
-	// 	include:{
-	// 		user: {
-	// 			omit:{
-	// 				password: true
-	// 			}
-	// 		},
+		include:{
+			user: {
+				omit:{
+					password: true
+				}
+			},
 
-	// 		// schedules: true,
-	// 		// appointments: true
-	// 		// prescriptions: true
-	// 	}
+		}
 
-	// });
+	});
 
-	// const totalProviderCount = await prisma.Provider.count({
-	// 	where: {
-	// 		AND: andConditions
-	// 	}
-	// })
+	const totalProviderCount = await prisma.provider.count({
+		where: {
+			AND: andConditions
+		}
+	})
 
-	// return {
-	// 	data: allProviders,
-	// 	meta: {
-	// 		page: page,
-	// 		limit: limit,
-	// 		total: totalProviderCount,
-	// 		totalPages: Math.ceil(totalProviderCount / limit)
-	// 	}
-	// }
+	return {
+		data: allProviders,
+		meta: {
+			page: page,
+			limit: limit,
+			total: totalProviderCount,
+			totalPages: Math.ceil(totalProviderCount / limit)
+		}
+	}
 }
 
-const updateProviderProfile = async (payload : "",user : RequestUser) => {
-	// const existingProvider = await prisma.Provider.findUnique({
-	// 	where: { userId: user.userId },
-	// });
+const updateProviderProfile = async (payload : IUpdateProviderProfilePayload,user : RequestUser) => {
+	const existingProvider = await prisma.provider.findUnique({
+		where: { userId: user.userId },
+	});
 
-	// if (!existingProvider) {
-	// 	throw new AppError(httpStatus.NOT_FOUND, "Provider Profile Not Found");
-	// }
+	if (!existingProvider) {
+		throw new AppError(httpStatus.NOT_FOUND, "Provider Profile Not Found");
+	}
+console.log(existingProvider)
+	const updatedProvider = await prisma.provider.update({
+		where: { id: existingProvider.id },
+		data:payload,
+	});
 
-	// const updatedProvider = await prisma.Provider.update({
-	// 	where: { id: existingProvider.id },
-	// 	data: payload,
-	// });
-
-	// return updatedProvider;
+	return updatedProvider;
 
 }
 

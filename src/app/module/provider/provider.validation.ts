@@ -221,7 +221,23 @@ export const UpdateProviderProfileValidationZodSchema = z.object({
     .optional(),
 });
 
+export const UpdateProviderProfileValidationZod  = z.object({
+    data: z
+        .string()
+        .transform((value, ctx) => {
+            try {
+                return JSON.parse(value);
+            } catch {
+                ctx.addIssue({
+                    code: "custom",
+                    message: "Invalid JSON format in data",
+                });
 
+                return z.NEVER;
+            }
+        })
+        .pipe(UpdateProviderProfileValidationZodSchema ),
+});
 
 export const RejectProviderValidationZodSchema = z.object({
   rejectionReason: z

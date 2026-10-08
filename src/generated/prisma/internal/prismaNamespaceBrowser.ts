@@ -56,6 +56,7 @@ export const ModelName = {
   Payment: 'Payment',
   Property: 'Property',
   Provider: 'Provider',
+  Question: 'Question',
   User: 'User'
 } as const
 
@@ -195,6 +196,21 @@ export const ProviderScalarFieldEnum = {
 } as const
 
 export type ProviderScalarFieldEnum = (typeof ProviderScalarFieldEnum)[keyof typeof ProviderScalarFieldEnum]
+
+
+export const QuestionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  userId: 'userId',
+  status: 'status',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
