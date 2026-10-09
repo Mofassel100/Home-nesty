@@ -64,7 +64,7 @@ const getSingleHomeBanner= async (userId: string) => {
 // property update from db
 const homeBannerUpdated = async (
     payload: IHomeBanner,
-    buffer: Buffer,
+    buffer: Buffer | null | undefined,
     userId: string,
     homeBannerID: string,
 ) => {
@@ -73,34 +73,20 @@ const homeBannerUpdated = async (
             id: homeBannerID,
         },
         select: {
-            imagePublicId: true,
-            imageUrl: true,
+            image: true,
+           
         },
     });
-
-    const cloudinaryResult = await new Promise<UploadApiResponse>(
-        (resolve, reject) => {
-            cloudinary.uploader
-                .upload_stream(
-                    {
-                        resource_type: "auto",
-                    },
-
-                    async (error, result) => {
-                        if (error) {
-                            return reject(error);
-                        }
-
-                        if (!result) {
-                            return reject(new Error("No result returned from Cloudinary"));
-                        }
-
-                        resolve(result);
-                    },
-                )
-                .end(buffer);
-        },
-    );
+    if (!currentHomeBanner) { throw new Error("Home Banner not found"); }
+let imageUrl = currentHomeBanner.image;
+   if (buffer && buffer.length > 0) { const cloudinaryResult = await new Promise<UploadApiResponse>( (resolve, reject) => 
+    { const uploadStream = cloudinary.uploader.upload_stream( { resource_type: "image", folder: "home-banners", }, (error, result) => 
+        { if (error) { return reject(error); } 
+   if (!result)
+ { return reject( new Error("No result returned from Cloudinary"), ); }
+   
+   resolve(result); }, ); uploadStream.end(buffer); }, ); 
+   imageUrl = cloudinaryResult.secure_url; }
     const findUser = await prisma.homeBanner.findUnique({
         where: { id: homeBannerID },
     });
@@ -115,14 +101,14 @@ const homeBannerUpdated = async (
         data: {
             title: payload.title,
             description: payload.description,
-            imageUrl: cloudinaryResult.secure_url,
-            imagePublicId: cloudinaryResult.public_id,
+            image: imageUrl,
+           
 
         },
     });
-    if (currentHomeBanner?.imagePublicId && currentHomeBanner.imageUrl) {
-        await cloudinary.uploader.destroy(currentHomeBanner.imagePublicId);
-    }
+    // if (currentHomeBanner?.imagePublicId && currentHomeBanner.imageUrl) {
+    //     await cloudinary.uploader.destroy(currentHomeBanner.imagePublicId);
+    // }
 
     return updatedHomeBanner;
 };

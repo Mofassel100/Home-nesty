@@ -22,12 +22,29 @@ import { IProperty } from "./property.interface";
 import { UploadApiResponse } from "cloudinary";
 import { cloudinary } from "../../lib/cloudinary";
 import { de } from "zod/v4/locales";
+import { title } from "process";
 
 const propertyCreate = async (
 	payload: IProperty,
 	buffer: Buffer,
 	userId: string,
 ) => {
+	
+	  // 1. Validate the user
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  include:{
+	provider:true,
+	
+  },
+	
+  });
+  if (!user) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "User not found. Please log in again.",
+    );
+  }
 	const cloudinaryResult = await new Promise<UploadApiResponse>(
 		(resolve, reject) => {
 			cloudinary.uploader
@@ -53,11 +70,10 @@ const propertyCreate = async (
 	);
 	const createProperty = await prisma.property.create({
 		data: {
-			ownerId: userId,
-            providerId:userId,
+            providerId:user?.provider?.id as string,
 			title: payload.title,
 			description: payload.description,
-
+            category: payload.category,
 			propertyType: payload.propertyType,
 
 			address: payload.address,
@@ -87,10 +103,8 @@ const propertyCreate = async (
 	return createProperty;
 };
 
-const getAllOwnProperty = async (userId: string) => {
-	const result = await prisma.property.findMany({
-		where: { ownerId: userId },
-	});
+const getAllOwnProperty = async () => {
+	const result = await prisma.property.findMany();
 	return result;
 };
 const getSingleOwnProperty = async (propertyId: string) => {

@@ -3,7 +3,7 @@ import { Role } from "../../../generated/prisma/enums";
 import { auth } from "../../middleware/checkAuth";
 import { upload } from "../../lib/multer";
 import { validateRequest } from "../../middleware/validateRequest";
-import { CreateHomeBannerValidation } from "./homeBanner.validation";
+import { CreateHomeBannerValidation, UpdatedHomeBannerValidation } from "./homeBanner.validation";
 import { HomeBannerController } from "./homeBanner.controller";
 
 
@@ -11,7 +11,7 @@ const router = Router();
 
 router.post(
     "/create",
-    // validateRequest(UserValidation.UserRegistrationZodSchema),
+
     auth(Role.ADMIN, Role.SUPER_ADMIN),
     upload.single("homeBanner"),
     validateRequest(CreateHomeBannerValidation),
@@ -32,7 +32,7 @@ router.patch(
     "/:id",
     auth(Role.ADMIN, Role.SUPER_ADMIN),
     upload.single("homeBanner"),
-    // validateRequest(updatedPropertyValidationZodSchema),
+    validateRequest(UpdatedHomeBannerValidation),
     HomeBannerController.homeBannerUpdated,
 );
 router.delete(

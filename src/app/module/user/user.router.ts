@@ -7,7 +7,7 @@ import { UserController } from "./user.controller";
 const router = Router();
 
 router.patch(
-	"/me",
+	"/me/:id",
 	auth(Role.SUPER_ADMIN, Role.ADMIN, Role.PROVIDER, Role.CUSTOMER),
 	upload.single("house-backend"),
 	UserController.uploadProfileImage,

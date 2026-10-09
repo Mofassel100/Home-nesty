@@ -1,4 +1,4 @@
-import type { Role } from "../../../generated/prisma/browser";
+import type { Role, UserStatus } from "../../../generated/prisma/browser";
 
 export interface ILoginUserPayload {
 	email: string;
@@ -12,6 +12,11 @@ export interface IRegisterUserPayload {
 	customer: {
 		contactNumber?: string;
 	};
+}
+export interface IUserUpdatedPayload {
+	name?: string;
+   
+	status?: UserStatus
 }
 export interface IVerifyEmailPayload {
 	email: string;

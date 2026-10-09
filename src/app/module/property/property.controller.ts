@@ -4,6 +4,7 @@ import { AppError } from "../../utils/AppError";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { PropertyService } from "./property.service";
+import { IProperty } from "./property.interface";
 
 const propertyCreate = catchAsync(async (req: Request, res: Response) => {
 	if (!req.file) {
@@ -11,8 +12,20 @@ const propertyCreate = catchAsync(async (req: Request, res: Response) => {
 	}
 
 	// const payload = JSON.parse(req.body.data);
-	const payload = req.body.data;
-	const userId = req.user?.userId;
+	  const payload: IProperty=
+      typeof req.body.data === "string"
+        ? JSON.parse(req.body.data)
+        : req.body.data;
+
+    const userId = req.user?.userId;
+console.log(req.user)
+    if (!userId) {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "Please log in first.",
+      );
+    }
+
 	const result = await PropertyService.propertyCreate(
 		payload,
 		req.file?.buffer,
@@ -29,7 +42,7 @@ const propertyCreate = catchAsync(async (req: Request, res: Response) => {
 const getAllOwnProperty = catchAsync(async (req: Request, res: Response) => {
 	const userId = req.user?.userId;
 
-	const result = await PropertyService.getAllOwnProperty(userId as string);
+	const result = await PropertyService.getAllOwnProperty();
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
@@ -57,6 +70,7 @@ const propertyUpdated = catchAsync(async (req: Request, res: Response) => {
 	const { id: propertyId } = req.params;
 	const payload = req.body.data;
 	const userId = req.user?.userId;
+	console.log(payload)
 	const result = await PropertyService.propertyUpdated(
 		payload,
 		req.file?.buffer,

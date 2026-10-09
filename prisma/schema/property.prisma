@@ -1,6 +1,5 @@
 model Property {
   id              String          @id @default(uuid())
-  ownerId         String
   title           String
   description     String
   category        PropertyCategory  @default(HOSTEL)
@@ -28,15 +27,8 @@ model Property {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-//   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-//   rooms Room[]
 
-//   rentalRequests RentalRequest[]
-//   bookings       Booking[]
-//   reviews        Review[]
-//   reports        Report[]
-
-  @@index([ownerId])            
+  @@index([providerId])            
   @@map("properties")
 }

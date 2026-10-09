@@ -136,7 +136,6 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 
 export const PropertyScalarFieldEnum = {
   id: 'id',
-  ownerId: 'ownerId',
   title: 'title',
   description: 'description',
   category: 'category',

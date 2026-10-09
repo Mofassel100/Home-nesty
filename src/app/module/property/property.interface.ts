@@ -6,6 +6,8 @@
 //   REFUNDED = "REFUNDED",
 // }
 
+import { PropertyCategory } from "../../../generated/prisma/enums";
+
 export enum ScheduleStatus {
 	DRAFT = "DRAFT",
 	PUBLISHED = "PUBLISHED",
@@ -165,6 +167,7 @@ export interface IProperty {
 	id: string;
 	ownerId: string;
 	title: string;
+	category: PropertyCategory
 	description: string;
 	propertyType: PropertyType;
 	address: string;
