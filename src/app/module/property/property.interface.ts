@@ -184,7 +184,6 @@ export interface IProperty {
 	contactName?: string | null;
 	contactPhone?: string | null;
 	contactEmail?: string | null;
-
 	status: PropertyStatus;
 }
 export interface IPropertyUpdated {

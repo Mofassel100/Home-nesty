@@ -9,6 +9,7 @@ const bookingCreate = catchAsync(async (req: Request, res: Response) => {
     // const payload = JSON.parse(req.body.data);
     const payload = req.body
     const userId = req.user?.userId;
+    console.log(payload,userId)
     const result = await BookingService.bookingCreate(
         payload,
         userId as string,
@@ -51,27 +52,27 @@ const bookingCallback = catchAsync(
 );
 const updateBookingStatus = catchAsync(
 	async (req: Request, res: Response) => {
-		// const appointmentId = req.params.appointmentId as string;
-		// const payload = req.body;
-		// const user = req.user!;
+		const bookingId = req.params.bookingId as string;
+		const payload = req.body;
+		const user = req.user!;
 
-		// const result = await BookingService.updateBookingStatus(
-		// 	appointmentId,
-		// 	payload,
-		// 	user,
-		// );
-		// sendResponse(res, {
-		// 	statusCode: httpStatus.OK,
-		// 	success: true,
-		// 	message: "Booking Status Updated Successfully",
-		// 	data: result,
-		// });
+		const result = await BookingService.updateBookingStatus(
+			bookingId,
+			payload,
+			user,
+		);
+		sendResponse(res, {
+			statusCode: httpStatus.OK,
+			success: true,
+			message: "Booking Status Updated Successfully",
+			data: result,
+		});
 	},
 );
 
 const getAllOwnBooking = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId;
-
+console.log(userId)
     const result = await BookingService.getAllOwnBooking(userId as string);
     sendResponse(res, {
         statusCode: httpStatus.OK,

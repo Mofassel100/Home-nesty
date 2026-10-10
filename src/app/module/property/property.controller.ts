@@ -62,18 +62,22 @@ const getSingleProperty = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 const propertyUpdated = catchAsync(async (req: Request, res: Response) => {
-	if (!req.file) {
-		throw new AppError(httpStatus.BAD_REQUEST, "No File Provided.");
-	}
-
+	// if (!req.file) {
+	// 	throw new AppError(httpStatus.BAD_REQUEST, "No File Provided.");
+	// }
+ const payload =
+    typeof req.body.data === "string"
+      ? JSON.parse(req.body.data)
+      : req.body.data ?? req.body;
+    const files = req.file ?? null ;
 	// const payload = JSON.parse(req.body.data);
 	const { id: propertyId } = req.params;
-	const payload = req.body.data;
+	// const payload = req.body.data;
 	const userId = req.user?.userId;
 	console.log(payload)
 	const result = await PropertyService.propertyUpdated(
 		payload,
-		req.file?.buffer,
+		files?.buffer,
 		userId as string,
 		propertyId as string,
 	);

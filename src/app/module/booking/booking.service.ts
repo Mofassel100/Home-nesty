@@ -3,7 +3,7 @@
 import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
 import { generateBookingNumber } from "./booking.constant";
-import { IBookingUpdated, IPayBookingPayload, IUpdateBookingStatusPayload } from "./booking.interface";
+import { IBookingUpdated, ICancelBookingPayload, ICreateBookingPayload, IPayBookingPayload, IUpdateBookingStatusPayload } from "./booking.interface";
 import { AppError } from "../../utils/AppError";
 import { RequestUser } from "../../middleware/checkAuth";
 import { getBkashIdToken } from "../../lib/bkash";
@@ -12,10 +12,7 @@ import { BookedStatus,  PaymentStatus } from "../../../generated/prisma/enums";
 import PDFDocument from "pdfkit";
 import { transporter } from "../../lib/nodemailer";
 const bookingCreate = async (
-  payload: {
-    propertyId: string;
-   guests?:number
-  },
+  payload:ICreateBookingPayload,
   userId: string,
 ) => {
 
@@ -42,11 +39,11 @@ const transactionResult = await prisma.$transaction(async (tx) => {
 
   const totalAmount = Number(property.rent) * 1;
 		const bookingNumber = generateBookingNumber();
-const startDate = new Date();
-  // Start date
-  // Automatically generate end date
-  const endDate = new Date(startDate);
-  endDate.setDate(endDate.getDate() + 3);
+// const startDate = new Date();
+//   // Start date
+//   // Automatically generate end date
+//   const endDate = new Date(startDate);
+//   endDate.setDate(endDate.getDate() + 3);
 
 
 		
@@ -65,8 +62,10 @@ const startDate = new Date();
 			data: {
       bookingNumber,
       propertyId: payload.propertyId,
-      startDate,
-      endDate,
+      startDate:new Date(payload.startDate),
+      endDate: payload.endDate
+      ? new Date(payload.endDate)
+      : null,
       customerId:userId,
       guests:guests,
       totalAmount,
@@ -111,6 +110,7 @@ const startDate = new Date();
 		const bkashCreatePaymentResult = await bkashCreatePaymentResponse.json();
 
 		//paymen model create
+		console.log(bkashCreatePaymentResult.bkashURL,"first")
 
 		await tx.payment.create({
 			data: {
@@ -123,7 +123,7 @@ const startDate = new Date();
 				payerReference: customer.email,
 			},
 		});
-
+console.log(bkashCreatePaymentResult.bkashURL,"last")
 		return {
 			paymentUrl: bkashCreatePaymentResult.bkashURL,
 		};
@@ -330,7 +330,7 @@ console.log(executedPaymentResponse)
 			})
 console.log(booking.id)
 			return {
-				redirectUrl: `${config.bkash_callback_url}/booking/update-status/${booking?.id}?status=success`,
+				redirectUrl: `${config.bkash_callback_url}/customer/booking/update-status/${booking?.id}?status=success`,
 			};
 		} else if (status === "failure") {
 			await tx.payment.update({
@@ -343,7 +343,7 @@ console.log(booking.id)
 				},
 			});
 			return {
-				redirectUrl: `${config.frontend_url}/dashboard/booking?status=failue`,
+				redirectUrl: `${config.frontend_url}/customer/booking?status=failue`,
 			};
 		} else if (status === "cancel") {
 			await tx.payment.update({
@@ -357,12 +357,12 @@ console.log(booking.id)
 			});
 			return {
 				executedPaymentResult,
-				redirectUrl: `${config.frontend_url}/dashboard/booking?status=cancel`,
+				redirectUrl: `${config.frontend_url}/customer/booking?status=cancel`,
 			};
 		} else {
 			return {
 				executedPaymentResult,
-				redirectUrl: `${config.frontend_url}/dashboard/booking?error=payment-failed`,
+				redirectUrl: `${config.frontend_url}/customer/booking?error=payment-failed`,
 			};
 		}
 	}, {

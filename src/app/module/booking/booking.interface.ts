@@ -25,3 +25,10 @@ export interface IUpdateBookingStatusPayload {
     status: "ONGOING" | "COMPLETED";
     // status: AppointmentStatus
 }
+
+export interface ICreateBookingPayload {
+  propertyId: string;
+  startDate: string;
+  endDate?: string;
+  guests: number;
+}

@@ -117,73 +117,63 @@ const getSingleOwnProperty = async (propertyId: string) => {
 // property update from db
 const propertyUpdated = async (
 	payload: IProperty,
-	buffer: Buffer,
+	buffer: Buffer |null | undefined,
 	userId: string,
 	propertyID: string,
 ) => {
 	const currentProperty = await prisma.property.findUnique({
 		where: {
-			id: userId,
+			id: propertyID,
 		},
 		select: {
 			imagePublicId: true,
 			imageUrl: true,
 		},
 	});
+if (!currentProperty) { throw new Error("Property not found"); }
+let imageUrl = currentProperty.imageUrl;
+let imagePublicId = currentProperty.imagePublicId;
+   if (buffer && buffer.length > 0) { 
+	const cloudinaryResult = await new Promise<UploadApiResponse>( (resolve, reject) => 
+    { const uploadStream = cloudinary.uploader.upload_stream( { resource_type: "image", folder: "property", }, (error, result) => 
+        { if (error) { return reject(error); } 
+   if (!result)
+ { return reject( new Error("No result returned from Cloudinary"), ); }
+   
+   resolve(result); }, ); uploadStream.end(buffer); }, ); 
+   imageUrl = cloudinaryResult.secure_url;
+  imagePublicId = cloudinaryResult.public_id
+}
+	// 
 
-	const cloudinaryResult = await new Promise<UploadApiResponse>(
-		(resolve, reject) => {
-			cloudinary.uploader
-				.upload_stream(
-					{
-						resource_type: "auto",
-					},
 
-					async (error, result) => {
-						if (error) {
-							return reject(error);
-						}
-
-						if (!result) {
-							return reject(new Error("No result returned from Cloudinary"));
-						}
-
-						resolve(result);
-					},
-				)
-				.end(buffer);
-		},
-	);
-	const findUser = await prisma.property.findUnique({
-		where: { id: propertyID },
-	});
-	if (!findUser) {
-		throw new Error("Property not found");
+	if (currentProperty?.imagePublicId && currentProperty.imageUrl) {
+		await cloudinary.uploader.destroy(currentProperty.imagePublicId);
 	}
+
+	
+	
 
 	const updatedProperty = await prisma.property.update({
 		where: {
-			id: findUser.id,
+			id: propertyID,
 		},
 		data: {
 			title: payload.title,
 			description: payload.description,
-
 			propertyType: payload.propertyType,
-
 			address: payload.address,
 			city: payload.city,
 			area: payload.area ?? null,
-
 			rent: payload.rent,
 			securityDeposit: payload.securityDeposit ?? null,
-
+            category:payload.category,
 			bedrooms: payload.bedrooms,
 			bathrooms: payload.bathrooms,
 			availableRooms: payload.availableRooms,
 			furnished: payload.furnished,
-			imageUrl: cloudinaryResult.secure_url,
-			imagePublicId: cloudinaryResult.public_id,
+			imageUrl: imageUrl,
+			imagePublicId: imagePublicId,
 			contactName: payload.contactName ?? null,
 			contactPhone: payload.contactPhone ?? null,
 			contactEmail: payload.contactEmail ?? null,
